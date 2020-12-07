@@ -52,7 +52,7 @@ public class DBConst {
                     QUIZZES_COLUMN_AUTHOR + " INTEGER NOT NULL, " +
                     QUIZZES_COLUMN_TITLE + " VARCHAR(50) NOT NULL, " +
                     QUIZZES_COLUMN_DESCRIPTION + " TEXT, " +
-                    " FOREIGN KEY (" + QUIZZES_COLUMN_AUTHOR + ") REFERENCES " + TABLE_USERS + " (" + USERS_COLUMN_ID + "), " +
+                    " FOREIGN KEY (" + QUIZZES_COLUMN_AUTHOR + ") REFERENCES " + TABLE_USERS + " (" + USERS_COLUMN_ID + ") ON DELETE CASCADE, " +
                     "PRIMARY KEY (" + QUIZZES_COLUMN_ID +")" +
                     ");";
 
@@ -62,7 +62,7 @@ public class DBConst {
                     QUIZ_ANSWERS_COLUMN_ANSWER + " VARCHAR(255) NOT NULL, " +
                     QUIZ_ANSWERS_COLUMN_CORRECT + " INTEGER DEFAULT 0, " +
                     QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + " INTEGER NOT NULL, " +
-                    " FOREIGN KEY (" + QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + "), " +
+                    " FOREIGN KEY (" + QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + ") ON DELETE CASCADE, " +
                     "PRIMARY KEY (" + QUIZ_ANSWERS_COLUMN_ID + ")" +
                     ");";
 
@@ -80,8 +80,8 @@ public class DBConst {
             QUESTION_QUIZ_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUIZ_ID + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUESTION_ID + " INTEGER NOT NULL, " +
-            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUIZ_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + "), " +
-            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + "), " +
+            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUIZ_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
+            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
             "PRIMARY KEY (" + QUESTION_QUIZ_COLUMN_ID + ")" +
             ");";
 }
