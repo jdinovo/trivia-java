@@ -114,5 +114,4 @@ public class QuizAnswerTable implements QuizAnswerDAO {
             e.printStackTrace();
         }
     }
-
 }
