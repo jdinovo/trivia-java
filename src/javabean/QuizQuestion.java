@@ -1,14 +1,9 @@
 package javabean;
 
-public class QuizQuestion {
-    private int id;
+public class QuizQuestion extends QuizData {
     private String category;
     private String subcategory;
     private Difficulty difficulty;
-    private String question;
-
-    public QuizQuestion() {
-    }
 
     /**
      *
@@ -18,10 +13,10 @@ public class QuizQuestion {
      * @param question
      */
     public QuizQuestion(String category, String subcategory, Difficulty difficulty, String question) {
+        super(question);
         this.category = category;
         this.subcategory = subcategory;
         this.difficulty = difficulty;
-        this.question = question;
     }
 
     /**
@@ -33,27 +28,10 @@ public class QuizQuestion {
      * @param question
      */
     public QuizQuestion(int id, String category, String subcategory, Difficulty difficulty, String question) {
-        this.id = id;
+        super(id, question);
         this.category = category;
         this.subcategory = subcategory;
         this.difficulty = difficulty;
-        this.question = question;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -104,19 +82,4 @@ public class QuizQuestion {
         this.difficulty = difficulty;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getQuestion() {
-        return question;
-    }
-
-    /**
-     *
-     * @param question
-     */
-    public void setQuestion(String question) {
-        this.question = question;
-    }
 }

@@ -14,6 +14,7 @@ public class User {
      * @param password - String
      */
     public User(String username, String password) {
+        this.id = -1;
         this.username = username;
         this.password = password;
     }
@@ -40,26 +41,10 @@ public class User {
 
     /**
      *
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     *
      * @return String
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     *
-     * @param username
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -70,11 +55,4 @@ public class User {
         return password;
     }
 
-    /**
-     *
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

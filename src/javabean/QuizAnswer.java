@@ -1,13 +1,9 @@
 package javabean;
 
-public class QuizAnswer {
-    private int id;
-    private String answer;
+public class QuizAnswer extends QuizData {
     private boolean correct;
     private QuizQuestion quizQuestion;
 
-    public QuizAnswer() {
-    }
 
     /**
      *
@@ -16,7 +12,7 @@ public class QuizAnswer {
      * @param quizQuestion
      */
     public QuizAnswer(String answer, boolean correct, QuizQuestion quizQuestion) {
-        this.answer = answer;
+        super(answer);
         this.correct = correct;
         this.quizQuestion = quizQuestion;
     }
@@ -29,42 +25,9 @@ public class QuizAnswer {
      * @param quizQuestion
      */
     public QuizAnswer(int id, String answer, boolean correct, QuizQuestion quizQuestion) {
-        this.id = id;
-        this.answer = answer;
+        super(id, answer);
         this.correct = correct;
         this.quizQuestion = quizQuestion;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAnswer() {
-        return answer;
-    }
-
-    /**
-     *
-     * @param answer
-     */
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     /**

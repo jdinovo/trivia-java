@@ -45,14 +45,6 @@ public class Quiz {
 
     /**
      *
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     *
      * @return User
      */
     public User getAuthor() {

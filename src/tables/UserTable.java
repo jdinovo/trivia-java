@@ -12,11 +12,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class UserTable implements UserDAO {
-    private Database db = Database.getInstance();
-    private ArrayList<User> users;
+    private final Database db;
+
+    public UserTable() {
+        this.db = Database.getInstance();
+    }
 
     private ArrayList<User> getAllFromDB(String query) {
-        users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
         try {
             Statement getItems = db.getConnection().createStatement();
             ResultSet data = getItems.executeQuery(query);
