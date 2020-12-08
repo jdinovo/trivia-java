@@ -16,6 +16,7 @@ public class Quiz {
      * @param description - String
      */
     public Quiz(User author, String title, String description) {
+        this.id = -1;
         this.author = author;
         this.title = title;
         this.description = description;

@@ -4,6 +4,11 @@ public abstract class QuizData {
     private final int id;
     private final String text;
 
+    public QuizData() {
+        this.id = -1;
+        this.text = "";
+    }
+
     /**
      *
      * @param text - text data to be displayed

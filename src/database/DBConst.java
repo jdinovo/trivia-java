@@ -37,6 +37,7 @@ public class DBConst {
     public static final String QUESTION_QUIZ_COLUMN_ID = "id";
     public static final String QUESTION_QUIZ_COLUMN_QUIZ_ID = "quiz_id";
     public static final String QUESTION_QUIZ_COLUMN_QUESTION_ID = "question_id";
+    public static final String QUESTION_QUIZ_COLUMN_NUMBER = "question_number";
 
     public static final String CREATE_TABLE_USERS =
             "CREATE TABLE " + TABLE_USERS + " (" +
@@ -78,6 +79,7 @@ public class DBConst {
 
     public static final String CREATE_TABLE_QUESTION_QUIZ = "CREATE TABLE " + TABLE_QUESTION_QUIZ + " (" +
             QUESTION_QUIZ_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
+            QUESTION_QUIZ_COLUMN_NUMBER + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUIZ_ID + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUESTION_ID + " INTEGER NOT NULL, " +
             " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUIZ_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +

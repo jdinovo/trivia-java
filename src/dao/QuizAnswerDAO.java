@@ -5,10 +5,10 @@ import javabean.QuizAnswer;
 import java.util.ArrayList;
 
 public interface QuizAnswerDAO {
-    public ArrayList<QuizAnswer> getAllQuizQuestions();
-    public ArrayList<QuizAnswer> getQuizAnswersForQuestion(int quizQuestionId);
-    public QuizAnswer getQuizQuestion(int quizAnswerId);
-    public void updateQuizQuestion(QuizAnswer quizAnswer);
-    public void deleteQuizQuestion(QuizAnswer quizAnswer);
-    public void createQuizQuestion(QuizAnswer quizAnswer);
+    ArrayList<QuizAnswer> getAllQuizQuestions();
+    ArrayList<QuizAnswer> getQuizAnswersForQuestion(int quizQuestionId);
+    QuizAnswer getQuizQuestion(int quizAnswerId);
+    void updateQuizQuestion(QuizAnswer quizAnswer);
+    void deleteQuizQuestion(QuizAnswer quizAnswer);
+    void createQuizQuestion(QuizAnswer quizAnswer);
 }

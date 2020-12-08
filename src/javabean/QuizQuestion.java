@@ -5,6 +5,9 @@ public class QuizQuestion extends QuizData {
     private String subcategory;
     private Difficulty difficulty;
 
+    public QuizQuestion() {
+    }
+
     /**
      *
      * @param category

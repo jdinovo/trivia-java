@@ -5,6 +5,10 @@ public class QuizAnswer extends QuizData {
     private QuizQuestion quizQuestion;
 
 
+    public QuizAnswer() {
+
+    }
+
     /**
      *
      * @param answer
