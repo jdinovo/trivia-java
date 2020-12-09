@@ -15,9 +15,9 @@ public class Quiz {
      * @param title - String
      * @param description - String
      */
-    public Quiz(User author, String title, String description) {
+    public Quiz(String title, String description) {
         this.id = -1;
-        this.author = author;
+//        this.author = author;
         this.title = title;
         this.description = description;
     }
@@ -29,9 +29,9 @@ public class Quiz {
      * @param title - String
      * @param description - String
      */
-    public Quiz(int id, User author, String title, String description) {
+    public Quiz(int id, String title, String description) {
         this.id = id;
-        this.author = author;
+//        this.author = author;
         this.title = title;
         this.description = description;
     }

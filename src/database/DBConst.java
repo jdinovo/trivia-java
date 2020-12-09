@@ -41,49 +41,44 @@ public class DBConst {
 
     public static final String CREATE_TABLE_USERS =
             "CREATE TABLE " + TABLE_USERS + " (" +
-                    USERS_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
+                    USERS_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                     USERS_COLUMN_USERNAME + " VARCHAR(50) NOT NULL, " +
-                    USERS_COLUMN_PASSWORD + " VARCHAR(50) NOT NULL, " +
-                    "PRIMARY KEY (" + USERS_COLUMN_ID + ")" +
+                    USERS_COLUMN_PASSWORD + " VARCHAR(50) NOT NULL" +
                     ");";
 
     public static final String CREATE_TABLE_QUIZZES =
             "CREATE TABLE " + TABLE_QUIZZES + " (" +
-                    QUIZZES_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
-                    QUIZZES_COLUMN_AUTHOR + " INTEGER NOT NULL, " +
+                    QUIZZES_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
+//                    QUIZZES_COLUMN_AUTHOR + " INTEGER NOT NULL, " +
                     QUIZZES_COLUMN_TITLE + " VARCHAR(50) NOT NULL, " +
-                    QUIZZES_COLUMN_DESCRIPTION + " TEXT, " +
-                    " FOREIGN KEY (" + QUIZZES_COLUMN_AUTHOR + ") REFERENCES " + TABLE_USERS + " (" + USERS_COLUMN_ID + ") ON DELETE CASCADE, " +
-                    "PRIMARY KEY (" + QUIZZES_COLUMN_ID +")" +
+                    QUIZZES_COLUMN_DESCRIPTION + " TEXT" +
+//                    " FOREIGN KEY (" + QUIZZES_COLUMN_AUTHOR + ") REFERENCES " + TABLE_USERS + " (" + USERS_COLUMN_ID + ") ON DELETE CASCADE" +
                     ");";
 
     public static final String CREATE_TABLE_QUIZ_ANSWERS =
             "CREATE TABLE " + TABLE_QUIZ_ANSWERS + " (" +
-                    QUIZ_ANSWERS_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
+                    QUIZ_ANSWERS_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                     QUIZ_ANSWERS_COLUMN_ANSWER + " VARCHAR(255) NOT NULL, " +
                     QUIZ_ANSWERS_COLUMN_CORRECT + " INTEGER DEFAULT 0, " +
                     QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + " INTEGER NOT NULL, " +
-                    " FOREIGN KEY (" + QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + ") ON DELETE CASCADE, " +
-                    "PRIMARY KEY (" + QUIZ_ANSWERS_COLUMN_ID + ")" +
+                    " FOREIGN KEY (" + QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + ") ON DELETE CASCADE" +
                     ");";
 
     public static final String CREATE_TABLE_QUIZ_QUESTIONS =
             "CREATE TABLE " + TABLE_QUIZ_QUESTIONS + " (" +
-                    QUIZ_QUESTIONS_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
+                    QUIZ_QUESTIONS_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                     QUIZ_QUESTIONS_COLUMN_CATEGORY + " VARCHAR(55) NOT NULL, " +
                     QUIZ_QUESTIONS_COLUMN_SUBCATEGORY + " VARCHAR(55), " +
                     QUIZ_QUESTIONS_COLUMN_DIFFICULTY + " INTEGER DEFAULT 1, " +
-                    QUIZ_QUESTIONS_COLUMN_QUESTION + " VARCHAR(255) NOT NULL, " +
-                    "PRIMARY KEY (" + QUIZ_QUESTIONS_COLUMN_ID + ")" +
+                    QUIZ_QUESTIONS_COLUMN_QUESTION + " VARCHAR(255) NOT NULL" +
                     ");";
 
     public static final String CREATE_TABLE_QUESTION_QUIZ = "CREATE TABLE " + TABLE_QUESTION_QUIZ + " (" +
-            QUESTION_QUIZ_COLUMN_ID + " INTEGER AUTO_INCREMENT NOT NULL, " +
+            QUESTION_QUIZ_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
             QUESTION_QUIZ_COLUMN_NUMBER + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUIZ_ID + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUESTION_ID + " INTEGER NOT NULL, " +
             " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUIZ_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
-            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
-            "PRIMARY KEY (" + QUESTION_QUIZ_COLUMN_ID + ")" +
+            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 }

@@ -5,7 +5,7 @@ import javabean.QuestionQuiz;
 
 import java.util.ArrayList;
 
-public class QuestionQuizTable implements QuestionQuizDAO {
+public class QuestionQuizRelationTable implements QuestionQuizDAO {
     @Override
     public ArrayList<QuestionQuiz> getQuestionQuizzes(int questionId) {
         return null;
