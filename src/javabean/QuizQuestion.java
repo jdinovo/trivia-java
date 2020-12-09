@@ -85,4 +85,8 @@ public class QuizQuestion extends QuizData {
         this.difficulty = difficulty;
     }
 
+    @Override
+    public String toString() {
+        return "\""+ super.toString() + "\" " + difficulty + " " + category + ": " + subcategory;
+    }
 }

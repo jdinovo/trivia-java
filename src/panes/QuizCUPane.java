@@ -1,6 +1,5 @@
 package panes;
 
-import form.CategoryChoice;
 import form.QuizCUForm;
 import javabean.Quiz;
 import javabean.QuizQuestion;
@@ -9,10 +8,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import main.CurrentUser;
 import tables.QuestionQuizRelationTable;
 import tables.QuizQuestionTable;
 import tables.QuizTable;
+import tabs.EditQuizTab;
 import tabs.NewQuizTab;
 
 import java.util.ArrayList;
@@ -30,30 +29,14 @@ public class QuizCUPane extends BorderPane {
 
     // gui items
     private ListView<QuizQuestion> questionListView;
-    private QuizCUForm form;
+    private final QuizCUForm form;
 
     public QuizCUPane() {
-
-        // db access
-        quizTable = new QuizTable();
-        quizQuestionTable = new QuizQuestionTable();
-        questionQuizRelationTable = new QuestionQuizRelationTable();
-
-        // info
-        questions = quizQuestionTable.getAllQuizQuestions();
 
         // gui
         form = new QuizCUForm("Create");
 
-        questionListView = new ListView<>();
-        questionListView.setItems(FXCollections.observableArrayList(questions));
-
-
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(form, questionListView);
-        setCenter(hBox);
-        setAlignment(hBox, Pos.CENTER);
+        generalLayout();
 
         form.getCreateButton().setOnAction(e -> {
             String title = form.getTitleField().getText().trim();
@@ -69,7 +52,50 @@ public class QuizCUPane extends BorderPane {
 
         });
 
+    }
 
+    public QuizCUPane(Quiz quiz) {
+
+        // gui
+        form = new QuizCUForm("Update");
+
+        generalLayout();
+
+        form.getTitleField().setText(quiz.getTitle());
+        form.getdescriptionArea().setText(quiz.getDescription());
+
+        form.getCreateButton().setOnAction(e -> {
+            String title = form.getTitleField().getText().trim();
+            String description = form.getdescriptionArea().getText().trim();
+
+            if (!title.isEmpty() && !description.isEmpty()) {
+                quiz.setTitle(title);
+                quiz.setDescription(description);
+                quizTable.updateQuiz(quiz);
+                QuizViewPane.refreshTable();
+                EditQuizTab.closeInstance();
+            }
+
+        });
+    }
+
+    private void generalLayout() {
+        // db access
+        quizTable = new QuizTable();
+        quizQuestionTable = new QuizQuestionTable();
+        questionQuizRelationTable = new QuestionQuizRelationTable();
+
+        // info
+        questions = quizQuestionTable.getAllQuizQuestions();
+
+        questionListView = new ListView<>();
+        questionListView.setItems(FXCollections.observableArrayList(questions));
+
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(form, questionListView);
+        setCenter(hBox);
+        setAlignment(hBox, Pos.CENTER);
 
 
     }

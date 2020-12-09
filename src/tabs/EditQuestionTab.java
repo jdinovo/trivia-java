@@ -1,14 +1,13 @@
 package tabs;
 
-
 import javafx.scene.control.Tab;
 import panes.QuestionCUPane;
 
-public class ViewQuestionsTab extends Tab {
-    private static ViewQuestionsTab tab;
+public class EditQuestionTab extends Tab {
+    private static EditQuestionTab tab;
 
-    private ViewQuestionsTab() {
-        this.setText("View Questions");
+    private EditQuestionTab() {
+        this.setText("Edit Question");
 
         this.setContent(new QuestionCUPane());
         this.setOnClosed(e-> {
@@ -16,9 +15,9 @@ public class ViewQuestionsTab extends Tab {
         });
     }
 
-    public static ViewQuestionsTab getInstance() {
+    public static EditQuestionTab getInstance() {
         if(tab == null) {
-            tab = new ViewQuestionsTab();
+            tab = new EditQuestionTab();
         }
         return tab;
     }

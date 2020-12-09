@@ -13,6 +13,8 @@ import tabs.ViewQuizzesTab;
 
 public class MainMenuPane extends BorderPane {
 
+    private static final TabPane tabPane = new TabPane();
+
     public MainMenuPane() {
 
         // Access db instance
@@ -26,7 +28,6 @@ public class MainMenuPane extends BorderPane {
         Menu createMenu = new Menu("Create");
 
         //creating tabPane
-        TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
 
         //Create MenuItems for the create Tab
@@ -99,5 +100,12 @@ public class MainMenuPane extends BorderPane {
         this.setTop(menu);
         this.setCenter(tabPane);
 
+        // show view quizzes by default
+        viewQuizzes.fire();
+
+    }
+
+    public static TabPane getTabPane() {
+        return tabPane;
     }
 }

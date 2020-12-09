@@ -3,6 +3,8 @@ package panes;
 import form.CategoryChoice;
 import form.QuestionCUForm;
 import form.QuizCUForm;
+import javabean.Difficulty;
+import javabean.QuizQuestion;
 import javafx.scene.layout.BorderPane;
 import tables.QuestionQuizRelationTable;
 import tables.QuizAnswerTable;
@@ -16,11 +18,11 @@ public class QuestionCUPane extends BorderPane {
 
 
     // db access
-    private QuizQuestionTable quizQuestionTable;
+    private final QuizQuestionTable quizQuestionTable;
     private QuizAnswerTable quizAnswerTable;
 
     // gui
-    private QuestionCUForm form;
+    private final QuestionCUForm form;
 
     public QuestionCUPane() {
 
@@ -32,10 +34,21 @@ public class QuestionCUPane extends BorderPane {
 
 
         // gui
-        form = new QuestionCUForm();
+        form = new QuestionCUForm("Create");
 
         setCenter(form);
 
+
+        form.getCreateButton().setOnAction(e -> {
+            String questionText = form.getQuestionArea().getText().trim();
+            String categoryText = form.getComboCategory().getValue();
+            String subCategoryText = form.getComboSubcategory().getValue();
+            Difficulty difficulty = form.getComboDifficulty().getValue();
+
+            if (!questionText.isEmpty() && !categoryText.isEmpty()) {
+                quizQuestionTable.createQuizQuestion(new QuizQuestion(categoryText, subCategoryText, difficulty, questionText));
+            }
+        });
 
 
 

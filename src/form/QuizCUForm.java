@@ -1,5 +1,6 @@
 package form;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -19,11 +20,15 @@ public class QuizCUForm extends VBox {
         titleLabel = new Label("Title");
         descriptionLabel = new Label("Description");
         descriptionArea.setPromptText("Enter a description of the quiz");
-        descriptionArea.setMaxWidth(200);
-        descriptionArea.setMaxSize(200,200);
+        descriptionArea.setMaxSize(400,200);
         descriptionArea.setWrapText(true);
 
         createButton = new Button(buttonLabel);
+        createButton.setPrefSize(400, 50);
+
+        setPrefSize(400, 400);
+        setSpacing(10);
+        setPadding(new Insets(10));
 
         getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionArea, createButton);
 
