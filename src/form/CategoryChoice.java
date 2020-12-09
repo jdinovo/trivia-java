@@ -8,7 +8,7 @@ public class CategoryChoice {
     public static Map<String, List<String>> getCategoryModel() {
         categoryModel.put("Science", Arrays.asList("Mathematics", "Computers", "Nature", "Gadgets"));
         categoryModel.put("Entertainment", Arrays.asList("Film", "Video Games", "Books", "Music",
-                "Musicals & Theatres", "Cartoon & Animations", "Japanese Anime & Manga", "Comics",
+                "Musicals & Theatres", "Cartoon & Animations", "Comics",
                 "Television", "Board Games"));
         categoryModel.put("General Knowledge", Collections.emptyList());
         categoryModel.put("Geography", Collections.emptyList());

@@ -1,5 +1,6 @@
 package main;
 
+import javabean.User;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import scenes.MainMenuScene;
@@ -19,9 +20,7 @@ public class Main extends Application{
         window = primaryStage;
         window.setScene(new MainMenuScene());
         window.setTitle("Trivia");
-        window.setMinWidth(1024);
-        window.setMinHeight(768);
-        window.setResizable(true);
+        window.setResizable(false);
         window.centerOnScreen();
         window.show();
     }
