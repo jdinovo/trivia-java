@@ -10,5 +10,5 @@ public interface QuizQuestionDAO {
     QuizQuestion getQuizQuestion(int quizQuestionId);
     void updateQuizQuestion(QuizQuestion quizQuestion);
     void deleteQuizQuestion(QuizQuestion quizQuestion);
-    void createQuizQuestion(QuizQuestion quizQuestion);
+    int createQuizQuestion(QuizQuestion quizQuestion);
 }

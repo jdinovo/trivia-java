@@ -14,7 +14,7 @@ public class QuizCUForm extends VBox {
     private TextArea descriptionArea;
     private Button createButton;
 
-    public QuizCUForm(String buttonLabel) {
+    public QuizCUForm(boolean update) {
         titleField = new TextField();
         descriptionArea = new TextArea();
         titleLabel = new Label("Title");
@@ -23,7 +23,7 @@ public class QuizCUForm extends VBox {
         descriptionArea.setMaxSize(400,200);
         descriptionArea.setWrapText(true);
 
-        createButton = new Button(buttonLabel);
+        createButton = new Button(update ? "Update" : "Create");
         createButton.setPrefSize(400, 50);
 
         setPrefSize(400, 400);

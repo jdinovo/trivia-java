@@ -31,17 +31,13 @@ public class QuestionCUForm extends VBox {
     private ComboBox<Difficulty> comboDifficulty;
 
 
-    public QuestionCUForm(String buttonLabel) {
+    public QuestionCUForm(boolean update) {
 
         questionLabel = new Label("Question");
         categoryLabel = new Label("Category");
         subcategoryLabel = new Label("Subcategory");
         difficultylabel = new Label("Difficulty");
         categoryMap = CategoryChoice.getCategoryModel();
-
-        //Brand label
-        Label brandText = new Label("Brand:");
-        brandText.setFont(BODY_FONT);
 
         comboCategory = new ComboBox<>();
         comboSubcategory = new ComboBox<>();
@@ -54,7 +50,6 @@ public class QuestionCUForm extends VBox {
         comboDifficulty.setValue(Difficulty.NORMAL);
 
         //category ComboBox
-        comboCategory.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
         //Set the drop down menu to the categoryMap's key values
         comboCategory.setItems(FXCollections.observableArrayList(categoryMap.keySet()));
         comboCategory.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -72,17 +67,19 @@ public class QuestionCUForm extends VBox {
         comboCategory.setVisibleRowCount(5);
         comboSubcategory.setVisibleRowCount(5);
 
+        comboCategory.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
         comboSubcategory.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
+        comboDifficulty.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
 
         questionArea = new TextArea();
         questionArea.setPromptText("Enter the question");
         questionArea.setMaxSize(200,200);
         questionArea.setWrapText(true);
 
-        createButton = new Button(buttonLabel);
-        createButton.setPrefSize(400, 50);
+        createButton = new Button(update ? "Update" : "Create");
+        createButton.setPrefSize(200, 50);
 
-        setPrefSize(400, 400);
+        setPrefSize(200, 400);
         setSpacing(10);
         setPadding(new Insets(10));
         setAlignment(Pos.CENTER);

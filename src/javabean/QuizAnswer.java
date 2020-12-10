@@ -13,12 +13,11 @@ public class QuizAnswer extends QuizData {
      *
      * @param answer
      * @param correct
-     * @param quizQuestion
      */
-    public QuizAnswer(String answer, boolean correct, QuizQuestion quizQuestion) {
+    public QuizAnswer(String answer, boolean correct) {
         super(answer);
         this.correct = correct;
-        this.quizQuestion = quizQuestion;
+        this.quizQuestion = null;
     }
 
     /**
@@ -64,5 +63,10 @@ public class QuizAnswer extends QuizData {
      */
     public void setQuizQuestion(QuizQuestion quizQuestion) {
         this.quizQuestion = quizQuestion;
+    }
+
+    @Override
+    public String toString() {
+        return  (correct ? "T" : "F") + " " + super.toString();
     }
 }

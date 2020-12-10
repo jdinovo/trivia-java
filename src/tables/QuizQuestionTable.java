@@ -99,21 +99,29 @@ public class QuizQuestionTable implements QuizQuestionDAO {
     }
 
     @Override
-    public void createQuizQuestion(QuizQuestion quizQuestion) {
+    public int createQuizQuestion(QuizQuestion quizQuestion) {
         String query = "INSERT INTO " + DBConst.TABLE_QUIZ_QUESTIONS +
                 " (" + DBConst.QUIZ_QUESTIONS_COLUMN_CATEGORY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_SUBCATEGORY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_DIFFICULTY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_QUESTION + ") VALUES (?, ?, ?, ?)";
         try {
-            PreparedStatement createItem = db.getConnection().prepareStatement(query);
+            PreparedStatement createItem = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             createItem.setString(1, quizQuestion.getCategory());
             createItem.setString(2, quizQuestion.getSubcategory());
             createItem.setInt(3, quizQuestion.getDifficulty().ordinal());
             createItem.setString(4, quizQuestion.getText());
             createItem.execute();
+
+            ResultSet rs = createItem.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            rs.close();
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 }

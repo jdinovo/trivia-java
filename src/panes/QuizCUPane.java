@@ -5,6 +5,7 @@ import javabean.Quiz;
 import javabean.QuizQuestion;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -34,7 +35,7 @@ public class QuizCUPane extends BorderPane {
     public QuizCUPane() {
 
         // gui
-        form = new QuizCUForm("Create");
+        form = new QuizCUForm(false);
 
         generalLayout();
 
@@ -46,9 +47,13 @@ public class QuizCUPane extends BorderPane {
                 quizTable.createQuiz(new Quiz(title, description));
                 QuizViewPane.refreshTable();
                 NewQuizTab.closeInstance();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Data");
+                alert.setContentText("Ensure all fields are filled!");
+                alert.show();
             }
-
-
 
         });
 
@@ -57,7 +62,7 @@ public class QuizCUPane extends BorderPane {
     public QuizCUPane(Quiz quiz) {
 
         // gui
-        form = new QuizCUForm("Update");
+        form = new QuizCUForm(true);
 
         generalLayout();
 
@@ -74,6 +79,12 @@ public class QuizCUPane extends BorderPane {
                 quizTable.updateQuiz(quiz);
                 QuizViewPane.refreshTable();
                 EditQuizTab.closeInstance();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Data");
+                alert.setContentText("Ensure all fields are filled!");
+                alert.show();
             }
 
         });

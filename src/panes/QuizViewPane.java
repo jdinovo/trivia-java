@@ -31,7 +31,7 @@ public class QuizViewPane extends BorderPane {
 
         tableView = new TableView<>();;
         sedButtons = new SEDButtons(true);
-        sedButtons.setVisible(false);
+        buttonsVisible(false);
 
         refreshTable();
 

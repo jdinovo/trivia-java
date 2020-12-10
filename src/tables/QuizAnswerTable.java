@@ -39,7 +39,7 @@ public class QuizAnswerTable implements QuizAnswerDAO {
     }
 
     @Override
-    public ArrayList<QuizAnswer> getAllQuizQuestions() {
+    public ArrayList<QuizAnswer> getAllQuizAnswers() {
         String query = "SELECT * FROM " + DBConst.TABLE_QUIZ_ANSWERS;
         return getAllFromDB(query);
     }
@@ -52,7 +52,7 @@ public class QuizAnswerTable implements QuizAnswerDAO {
     }
 
     @Override
-    public QuizAnswer getQuizQuestion(int quizAnswerId) {
+    public QuizAnswer getQuizAnswer(int quizAnswerId) {
         String query = "SELECT * FROM " + DBConst.TABLE_QUIZ_ANSWERS + " WHERE " + DBConst.QUIZ_ANSWERS_COLUMN_ID + " = " + quizAnswerId;
         QuizAnswer answer = new QuizAnswer();
         QuizQuestionTable quizQuestionTable = new QuizQuestionTable();
@@ -71,7 +71,7 @@ public class QuizAnswerTable implements QuizAnswerDAO {
     }
 
     @Override
-    public void updateQuizQuestion(QuizAnswer quizAnswer) {
+    public void updateQuizAnswer(QuizAnswer quizAnswer) {
         String query = "UPDATE " + DBConst.TABLE_QUIZ_ANSWERS + " SET "  +
                 DBConst.QUIZ_ANSWERS_COLUMN_ANSWER + " = ?, " +
                 DBConst.QUIZ_ANSWERS_COLUMN_CORRECT + " = ?, " +
@@ -88,7 +88,7 @@ public class QuizAnswerTable implements QuizAnswerDAO {
     }
 
     @Override
-    public void deleteQuizQuestion(QuizAnswer quizAnswer) {
+    public void deleteQuizAnswer(QuizAnswer quizAnswer) {
         String query = "DELETE FROM " + DBConst.TABLE_QUIZ_ANSWERS + " WHERE " + DBConst.QUIZ_ANSWERS_COLUMN_ID + " = " + quizAnswer.getId();
         try {
             db.getConnection().createStatement().execute(query);
@@ -99,7 +99,7 @@ public class QuizAnswerTable implements QuizAnswerDAO {
     }
 
     @Override
-    public void createQuizQuestion(QuizAnswer quizAnswer) {
+    public void createQuizAnswer(QuizAnswer quizAnswer) {
         String query = "INSERT INTO " + DBConst.TABLE_QUIZ_ANSWERS +
                 " (" + DBConst.QUIZ_ANSWERS_COLUMN_ANSWER + ", " +
                 DBConst.QUIZ_ANSWERS_COLUMN_CORRECT + ", " +
