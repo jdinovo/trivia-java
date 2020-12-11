@@ -8,7 +8,7 @@ package database;
 public class DBConst {
     public static final String TABLE_USERS = "users";
     public static final String TABLE_QUIZZES = "quizzes";
-    public static final String TABLE_QUIZ_ANSWERS = "quiz_answers";
+    public static final String TABLE_QUESTION_ANSWERS = "question_answers";
     public static final String TABLE_QUIZ_QUESTIONS = "quiz_questions";
     public static final String TABLE_QUESTION_QUIZ = "question_quiz";
 
@@ -22,10 +22,10 @@ public class DBConst {
     public static final String QUIZZES_COLUMN_DESCRIPTION = "description";
     public static final String QUIZZES_COLUMN_TIME_LIMIT = "time_limit";
 
-    public static final String QUIZ_ANSWERS_COLUMN_ID = "id";
-    public static final String QUIZ_ANSWERS_COLUMN_ANSWER = "answer";
-    public static final String QUIZ_ANSWERS_COLUMN_CORRECT = "correct";
-    public static final String QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID = "question_id";
+    public static final String QUESTION_ANSWERS_COLUMN_ID = "id";
+    public static final String QUESTION_ANSWERS_COLUMN_ANSWER = "answer";
+    public static final String QUESTION_ANSWERS_COLUMN_CORRECT = "correct";
+    public static final String QUESTION_ANSWERS_COLUMN_QUIZ_QUESTION_ID = "question_id";
 
     public static final String QUIZ_QUESTIONS_COLUMN_ID = "id";
     public static final String QUIZ_QUESTIONS_COLUMN_CATEGORY = "category";
@@ -55,13 +55,13 @@ public class DBConst {
 //                    " FOREIGN KEY (" + QUIZZES_COLUMN_AUTHOR + ") REFERENCES " + TABLE_USERS + " (" + USERS_COLUMN_ID + ") ON DELETE CASCADE" +
                     ");";
 
-    public static final String CREATE_TABLE_QUIZ_ANSWERS =
-            "CREATE TABLE " + TABLE_QUIZ_ANSWERS + " (" +
-                    QUIZ_ANSWERS_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                    QUIZ_ANSWERS_COLUMN_ANSWER + " VARCHAR(255) NOT NULL, " +
-                    QUIZ_ANSWERS_COLUMN_CORRECT + " INTEGER DEFAULT 0, " +
-                    QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + " INTEGER NOT NULL, " +
-                    " FOREIGN KEY (" + QUIZ_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + ") ON DELETE CASCADE" +
+    public static final String CREATE_TABLE_QUESTION_ANSWERS =
+            "CREATE TABLE " + TABLE_QUESTION_ANSWERS + " (" +
+                    QUESTION_ANSWERS_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
+                    QUESTION_ANSWERS_COLUMN_ANSWER + " VARCHAR(255) NOT NULL, " +
+                    QUESTION_ANSWERS_COLUMN_CORRECT + " INTEGER DEFAULT 0, " +
+                    QUESTION_ANSWERS_COLUMN_QUIZ_QUESTION_ID + " INTEGER NOT NULL, " +
+                    " FOREIGN KEY (" + QUESTION_ANSWERS_COLUMN_QUIZ_QUESTION_ID + ") REFERENCES " + TABLE_QUIZ_QUESTIONS + " (" + QUIZ_QUESTIONS_COLUMN_ID + ") ON DELETE CASCADE" +
                     ");";
 
     public static final String CREATE_TABLE_QUIZ_QUESTIONS =
@@ -75,10 +75,11 @@ public class DBConst {
 
     public static final String CREATE_TABLE_QUESTION_QUIZ = "CREATE TABLE " + TABLE_QUESTION_QUIZ + " (" +
             QUESTION_QUIZ_COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, " +
-            QUESTION_QUIZ_COLUMN_NUMBER + " INTEGER NOT NULL, " +
+//            QUESTION_QUIZ_COLUMN_NUMBER + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUIZ_ID + " INTEGER NOT NULL, " +
             QUESTION_QUIZ_COLUMN_QUESTION_ID + " INTEGER NOT NULL, " +
             " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUIZ_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
-            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE" +
+            " FOREIGN KEY (" + QUESTION_QUIZ_COLUMN_QUESTION_ID  + ") REFERENCES " + TABLE_QUIZZES + " (" + QUIZZES_COLUMN_ID + ") ON DELETE CASCADE, " +
+            " UNIQUE (" + QUESTION_QUIZ_COLUMN_QUIZ_ID + ", " + QUESTION_QUIZ_COLUMN_QUESTION_ID +  ")" +
             ");";
 }

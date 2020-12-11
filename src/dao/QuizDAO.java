@@ -9,5 +9,5 @@ public interface QuizDAO {
     Quiz getQuiz(int quizId);
     void updateQuiz(Quiz quiz);
     void deleteQuiz(Quiz quiz);
-    void createQuiz(Quiz quiz);
+    int createQuiz(Quiz quiz);
 }

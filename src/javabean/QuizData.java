@@ -1,8 +1,8 @@
 package javabean;
 
 public abstract class QuizData {
-    private final int id;
-    private final String text;
+    private int id;
+    private String text;
 
     public QuizData() {
         this.id = -1;
@@ -41,6 +41,15 @@ public abstract class QuizData {
      * @return String text data
      */
     public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public String toString() {
         return text;
     }
 }

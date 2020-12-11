@@ -4,6 +4,7 @@ import dao.QuizQuestionDAO;
 import database.DBConst;
 import database.Database;
 import javabean.Difficulty;
+import javabean.QuestionQuiz;
 import javabean.QuizQuestion;
 
 import java.sql.PreparedStatement;
@@ -46,8 +47,11 @@ public class QuizQuestionTable implements QuizQuestionDAO {
 
     @Override
     public ArrayList<QuizQuestion> getQuestionsForQuiz(int quizId) {
+
         String query = "SELECT " + DBConst.TABLE_QUIZ_QUESTIONS +".* FROM " + DBConst.TABLE_QUIZ_QUESTIONS +
-                " INNER JOIN " + DBConst.TABLE_QUESTION_QUIZ + " WHERE " + DBConst.QUESTION_QUIZ_COLUMN_QUIZ_ID + " = " + quizId;
+                " INNER JOIN " + DBConst.TABLE_QUESTION_QUIZ + " ON " + DBConst.TABLE_QUIZ_QUESTIONS + "." +
+                DBConst.QUIZ_QUESTIONS_COLUMN_ID + " = " + DBConst.TABLE_QUESTION_QUIZ + "." +
+                DBConst.QUESTION_QUIZ_COLUMN_QUESTION_ID + " WHERE " + DBConst.QUESTION_QUIZ_COLUMN_QUIZ_ID + " = " + quizId;
         return getAllFromDB(query);
     }
 
@@ -99,21 +103,29 @@ public class QuizQuestionTable implements QuizQuestionDAO {
     }
 
     @Override
-    public void createQuizQuestion(QuizQuestion quizQuestion) {
+    public int createQuizQuestion(QuizQuestion quizQuestion) {
         String query = "INSERT INTO " + DBConst.TABLE_QUIZ_QUESTIONS +
                 " (" + DBConst.QUIZ_QUESTIONS_COLUMN_CATEGORY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_SUBCATEGORY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_DIFFICULTY + ", " +
                 DBConst.QUIZ_QUESTIONS_COLUMN_QUESTION + ") VALUES (?, ?, ?, ?)";
         try {
-            PreparedStatement createItem = db.getConnection().prepareStatement(query);
+            PreparedStatement createItem = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             createItem.setString(1, quizQuestion.getCategory());
             createItem.setString(2, quizQuestion.getSubcategory());
             createItem.setInt(3, quizQuestion.getDifficulty().ordinal());
             createItem.setString(4, quizQuestion.getText());
             createItem.execute();
+
+            ResultSet rs = createItem.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            rs.close();
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 }

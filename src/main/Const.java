@@ -6,7 +6,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 public class Const {
-    public static final int TEXTFIELD_WIDTH_SIZE = 250;
+    public static final int TEXTFIELD_WIDTH_SIZE = 200;
 
     public static final Font HEADER_FONT = Font.font("Impact", FontWeight.BOLD, FontPosture.REGULAR, 20);
 

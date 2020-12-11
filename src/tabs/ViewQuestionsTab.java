@@ -2,15 +2,15 @@ package tabs;
 
 
 import javafx.scene.control.Tab;
-import panes.QuestionCUPane;
+import panes.QuestionViewPane;
 
 public class ViewQuestionsTab extends Tab {
     private static ViewQuestionsTab tab;
 
     private ViewQuestionsTab() {
-        this.setText("Edit Question");
+        this.setText("View Questions");
 
-        this.setContent(new QuestionCUPane());
+        this.setContent(new QuestionViewPane());
         this.setOnClosed(e-> {
             tab = null;
         });

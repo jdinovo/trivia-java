@@ -91,19 +91,27 @@ public class QuizTable implements QuizDAO {
     }
 
     @Override
-    public void createQuiz(Quiz quiz) {
+    public int createQuiz(Quiz quiz) {
         String query = "INSERT INTO " + DBConst.TABLE_QUIZZES + " ("
 //                + DBConst.QUIZZES_COLUMN_AUTHOR + ", "
                 + DBConst.QUIZZES_COLUMN_TITLE + ", " +
                 DBConst.QUIZZES_COLUMN_DESCRIPTION + ") VALUES (?, ?)";
         try {
-            PreparedStatement createItem = db.getConnection().prepareStatement(query);
+            PreparedStatement createItem = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 //            createItem.setInt(1, quiz.getAuthor().getId());
             createItem.setString(1, quiz.getTitle());
             createItem.setString(2, quiz.getDescription());
             createItem.execute();
+
+            ResultSet rs = createItem.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            rs.close();
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 }
