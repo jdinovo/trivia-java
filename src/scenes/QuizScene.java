@@ -3,7 +3,7 @@ package scenes;
 import javabean.Quiz;
 import javafx.scene.Scene;
 import main.Construct;
-import panes.QuizPane;
+import panes.quiz.QuizPane;
 
 public class QuizScene extends Scene {
 
