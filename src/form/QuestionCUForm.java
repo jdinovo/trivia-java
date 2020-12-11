@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Map;
 
-import static main.Const.TEXTFIELD_WIDTH_SIZE;
-
 
 public class QuestionCUForm extends VBox {
 
@@ -64,9 +62,9 @@ public class QuestionCUForm extends VBox {
         comboCategory.setVisibleRowCount(5);
         comboSubcategory.setVisibleRowCount(5);
 
-        comboCategory.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
-        comboSubcategory.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
-        comboDifficulty.setMaxWidth(TEXTFIELD_WIDTH_SIZE);
+        comboCategory.setMaxWidth(200);
+        comboSubcategory.setMaxWidth(200);
+        comboDifficulty.setMaxWidth(200);
 
         questionArea = new TextArea();
         questionArea.setPromptText("Enter the question");

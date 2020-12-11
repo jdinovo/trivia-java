@@ -4,12 +4,19 @@ import form.QuizAnswerButtons;
 import javabean.QuestionResult;
 import javabean.Quiz;
 import javabean.QuizQuestion;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import main.Construct;
 import main.Main;
 import scenes.QuizResultsScene;
 
 import java.util.ArrayList;
+
+import static main.Const.BODY_FONT;
+import static main.Const.HEADER_FONT;
 
 public class QuizPane extends BorderPane {
 
@@ -20,18 +27,39 @@ public class QuizPane extends BorderPane {
     private Button nextButton;
     private Quiz quiz;
 
+    private Label questionLabel, categoryLabel;
+
     private ArrayList<QuestionResult> results;
 
     public QuizPane(Quiz quiz) {
 
+        // set quiz
         this.quiz = quiz;
 
+        // set base index
         currentIndex = 0;
 
+        // get questions
         questions = quiz.getQuestions(true);
 
+        // initialize gui
         answerButtons = new QuizAnswerButtons();
         results = new ArrayList<>();
+
+        questionLabel = new Label();
+        questionLabel.setAlignment(Pos.CENTER);
+        questionLabel.setWrapText(true);
+        questionLabel.setMaxWidth(Construct.SCREEN_WIDTH >> 1);
+        questionLabel.setFont(BODY_FONT);
+        categoryLabel = new Label();
+        categoryLabel.setFont(HEADER_FONT);
+
+        VBox headerBox = new VBox();
+        headerBox.getChildren().addAll(categoryLabel, questionLabel);
+        headerBox.setAlignment(Pos.CENTER);
+        headerBox.setSpacing(10);
+
+        setCenter(headerBox);
 
         // next Button
         nextButton = new Button("Next Question");
@@ -42,7 +70,7 @@ public class QuizPane extends BorderPane {
         setRight(nextButton);
 
         // exit button
-        Button quit = new Button("Quit Quiz");
+        Button quit = new Button("Exit Quiz");
         quit.setOnAction(e -> {
             Main.setMainScene();
         });
@@ -76,6 +104,10 @@ public class QuizPane extends BorderPane {
             currentQuestion = questions.get(currentIndex);
             currentIndex++;
             answerButtons.setAnswers(currentQuestion.getAnswers(true));
+
+            questionLabel.setText(currentQuestion.getText());
+            categoryLabel.setText(currentQuestion.getCategory() + (currentQuestion.getSubcategory().isEmpty() ? "" : (": " + currentQuestion.getSubcategory())));
+
             nextButton.setVisible(false);
             if (currentIndex > questions.size() - 1) {
                 nextButton.setText("View Results");

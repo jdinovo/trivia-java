@@ -18,6 +18,8 @@ import scenes.QuizScene;
 
 import java.util.ArrayList;
 
+import static main.Const.HEADER_FONT;
+
 public class QuizResultsPane extends BorderPane {
 
     private TableView<QuestionResult> tableView;
@@ -27,7 +29,9 @@ public class QuizResultsPane extends BorderPane {
         int correctCount = results.stream().mapToInt(result -> result.getQuestionAnswer().isCorrect() ? 1 : 0).sum();
 
         Label header = new Label("RESULTS");
+        header.setFont(HEADER_FONT);
         Label correctLabel = new Label(correctCount + "/" + results.size());
+        correctLabel.setFont(HEADER_FONT);
 
         HBox headerBox = new HBox();
         headerBox.setAlignment(Pos.CENTER);
@@ -67,8 +71,6 @@ public class QuizResultsPane extends BorderPane {
         correctCol.setCellValueFactory(new PropertyValueFactory<>("questionAnswer"));
 
         tableView.getColumns().addAll(questionCol, correctCol);
-
-        System.out.println(results);
 
         setBottom(tableView);
 
