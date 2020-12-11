@@ -1,6 +1,7 @@
 package form;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -29,6 +30,7 @@ public class QuizCUForm extends VBox {
         setPrefSize(400, 400);
         setSpacing(10);
         setPadding(new Insets(10));
+        setAlignment(Pos.CENTER_LEFT);
 
         getChildren().addAll(titleLabel, titleField, descriptionLabel, descriptionArea, createButton);
 

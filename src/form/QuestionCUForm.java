@@ -1,9 +1,7 @@
 package form;
 
 import javabean.Difficulty;
-import javabean.QuizAnswer;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javabean.QuestionAnswer;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,7 +11,6 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Map;
 
-import static main.Const.BODY_FONT;
 import static main.Const.TEXTFIELD_WIDTH_SIZE;
 
 
@@ -21,7 +18,7 @@ public class QuestionCUForm extends VBox {
 
     private Label questionLabel, categoryLabel, subcategoryLabel, difficultylabel;
     private TextArea questionArea;
-    private ListView<QuizAnswer> answerListView;
+    private ListView<QuestionAnswer> answerListView;
     private Map<String, List<String>> categoryMap;
 
     private Button createButton;
@@ -96,7 +93,7 @@ public class QuestionCUForm extends VBox {
         return questionArea;
     }
 
-    public ListView<QuizAnswer> getAnswerListView() {
+    public ListView<QuestionAnswer> getAnswerListView() {
         return answerListView;
     }
 

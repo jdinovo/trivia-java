@@ -23,7 +23,7 @@ public class AnswerCUForm extends VBox {
 
         correctCheckBox = new CheckBox();
 
-        addButton = new Button(update ? "Update" : "Add");
+        addButton = new Button(update ? "Update Answer" : "Add Answer");
 
         answerArea.setPromptText("Enter a description of the quiz");
         answerArea.setMaxSize(200,200);

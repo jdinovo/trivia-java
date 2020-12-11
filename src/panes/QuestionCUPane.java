@@ -4,7 +4,7 @@ import form.AnswerCUForm;
 import form.AUDButtons;
 import form.QuestionCUForm;
 import javabean.Difficulty;
-import javabean.QuizAnswer;
+import javabean.QuestionAnswer;
 import javabean.QuizQuestion;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -15,7 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import tables.QuizAnswerTable;
+import tables.QuestionAnswerTable;
 import tables.QuizQuestionTable;
 import tabs.EditQuestionTab;
 import tabs.NewQuestionTab;
@@ -26,17 +26,18 @@ public class QuestionCUPane extends BorderPane {
 
     // db access
     private QuizQuestionTable quizQuestionTable;
-    private QuizAnswerTable quizAnswerTable;
+    private QuestionAnswerTable questionAnswerTable;
 
     // gui
     private QuestionCUForm questionCUForm;
     private AnswerCUForm answerCUForm;
-    private ListView<QuizAnswer> answerListView;
+    private ListView<QuestionAnswer> answerListView;
     private AUDButtons audButtons;
 
     // items
-    private ArrayList<QuizAnswer> answers;
-    private QuizAnswer answer;
+    private ArrayList<QuestionAnswer> answers;
+    private ArrayList<QuestionAnswer> toDelete;
+    private QuestionAnswer answer;
 
     // boxes
     private HBox centeredBox;
@@ -60,7 +61,7 @@ public class QuestionCUPane extends BorderPane {
                 int quizId = quizQuestionTable.createQuizQuestion(new QuizQuestion(categoryText, subCategoryText, difficulty, questionText));
                 answers.forEach(answer -> {
                     answer.setQuizQuestion(new QuizQuestion(quizId, categoryText, subCategoryText, difficulty, questionText));
-                    quizAnswerTable.createQuizAnswer(answer);
+                    questionAnswerTable.createQuestionAnswer(answer);
                 });
                 QuestionViewPane.refreshTable();
                 NewQuestionTab.closeInstance();
@@ -81,7 +82,7 @@ public class QuestionCUPane extends BorderPane {
         // gui
         questionCUForm = new QuestionCUForm(true);
 
-        answers = quizAnswerTable.getQuizAnswersForQuestion(quizQuestion.getId());
+        answers = questionAnswerTable.getAnswersForQuestion(quizQuestion.getId());
         updateListView();
 
         questionCUForm.getComboCategory().setValue(quizQuestion.getCategory());
@@ -103,13 +104,20 @@ public class QuestionCUPane extends BorderPane {
                 quizQuestion.setSubcategory(subCategoryText);
                 quizQuestion.setDifficulty(difficulty);
                 quizQuestionTable.updateQuizQuestion(quizQuestion);
+
+                // update or create answers
                 answers.forEach(ans -> {
                     if (ans.getId() > 0) {
-                        quizAnswerTable.updateQuizAnswer(ans);
+                        questionAnswerTable.updateQuestionAnswer(ans);
                     } else {
                         ans.setQuizQuestion(quizQuestion);
-                        quizAnswerTable.createQuizAnswer(ans);
+                        questionAnswerTable.createQuestionAnswer(ans);
                     }
+                });
+
+                // delete answers
+                toDelete.forEach(ans -> {
+                    questionAnswerTable.deleteQuestionAnswer(ans);
                 });
                 QuestionViewPane.refreshTable();
                 EditQuestionTab.closeInstance();
@@ -125,10 +133,10 @@ public class QuestionCUPane extends BorderPane {
     }
 
     private void generalLayout() {
-        answer = new QuizAnswer();
+        answer = new QuestionAnswer();
 
         // db access
-        quizAnswerTable = new QuizAnswerTable();
+        questionAnswerTable = new QuestionAnswerTable();
         quizQuestionTable = new QuizQuestionTable();
 
         // gui
@@ -137,6 +145,7 @@ public class QuestionCUPane extends BorderPane {
         cudEditDeleteVisibility(false);
 
         answers = new ArrayList<>();
+        toDelete = new ArrayList<>();
 
         answerListView = new ListView<>();
         updateListView();
@@ -168,7 +177,7 @@ public class QuestionCUPane extends BorderPane {
 
                 if (!ansText.isEmpty()) {
                     if (answers.size() < 4) {
-                        answers.add(new QuizAnswer(ansText, ansCorrect));
+                        answers.add(new QuestionAnswer(ansText, ansCorrect));
                     }
                     updateListView();
                     swapAnswerViews(true);
@@ -219,8 +228,7 @@ public class QuestionCUPane extends BorderPane {
             alert.setGraphic(null);
             alert.setContentText("Are you sure you want to delete this answer?");
             if (alert.showAndWait().get() == ButtonType.OK) {
-                quizAnswerTable.deleteQuizAnswer(answer);
-                answers.remove(answer);
+                removeAnswer(answer);
                 cudEditDeleteVisibility(false);
                 updateListView();
             }
@@ -229,6 +237,13 @@ public class QuestionCUPane extends BorderPane {
         });
 
 
+    }
+
+    private void removeAnswer(QuestionAnswer ans) {
+        if (ans.getId() > 0) {
+            toDelete.add(ans);
+        }
+        answers.remove(ans);
     }
 
     private void cudEditDeleteVisibility(boolean visible) {

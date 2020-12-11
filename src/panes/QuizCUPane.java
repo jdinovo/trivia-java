@@ -1,12 +1,12 @@
 package panes;
 
+import form.QuestionSelectionList;
 import form.QuizCUForm;
+import javabean.QuestionQuiz;
 import javabean.Quiz;
 import javabean.QuizQuestion;
-import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import tables.QuestionQuizRelationTable;
@@ -26,10 +26,11 @@ public class QuizCUPane extends BorderPane {
     private QuestionQuizRelationTable questionQuizRelationTable;
 
     // information
-    private ArrayList<QuizQuestion> questions;
+    ArrayList<QuestionQuiz> questionQuizzesToDelete;
 
     // gui items
-    private ListView<QuizQuestion> questionListView;
+    private QuestionSelectionList questionSelectionList;
+    private QuestionSelectionList selectedQuestionList;
     private final QuizCUForm form;
 
     public QuizCUPane() {
@@ -39,12 +40,24 @@ public class QuizCUPane extends BorderPane {
 
         generalLayout();
 
+        selectedQuestionList.getAudButtons().getDeleteButton().setOnAction(e -> {
+            QuizQuestion q = selectedQuestionList.getSelectedQuestion();
+            selectedQuestionList.removeQuestion(q);
+            questionSelectionList.addQuestion(q);
+        });
+
         form.getCreateButton().setOnAction(e -> {
             String title = form.getTitleField().getText().trim();
             String description = form.getdescriptionArea().getText().trim();
 
             if (!title.isEmpty() && !description.isEmpty()) {
-                quizTable.createQuiz(new Quiz(title, description));
+                int quizId = quizTable.createQuiz(new Quiz(title, description));
+
+                ArrayList<QuizQuestion> questions = selectedQuestionList.getQuizQuestions();
+
+                questions.forEach(qu -> {
+                    questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quizId, qu.getId()));
+                });
                 QuizViewPane.refreshTable();
                 NewQuizTab.closeInstance();
             } else {
@@ -69,6 +82,25 @@ public class QuizCUPane extends BorderPane {
         form.getTitleField().setText(quiz.getTitle());
         form.getdescriptionArea().setText(quiz.getDescription());
 
+        ArrayList<QuizQuestion> selectedQuestions = quizQuestionTable.getQuestionsForQuiz(quiz.getId());
+        selectedQuestionList.getQuizQuestions().clear();
+        selectedQuestionList.getQuizQuestions().addAll(selectedQuestions);
+        selectedQuestionList.refreshList();
+
+        selectedQuestions.forEach(qu -> {
+            questionSelectionList.removeQuestion(qu);
+        });
+        questionSelectionList.refreshList();
+
+        selectedQuestionList.getAudButtons().getDeleteButton().setOnAction(e -> {
+            QuizQuestion q = selectedQuestionList.getSelectedQuestion();
+            selectedQuestionList.removeQuestion(q);
+            questionSelectionList.addQuestion(q);
+            removeQuestion(quiz, q);
+        });
+
+
+
         form.getCreateButton().setOnAction(e -> {
             String title = form.getTitleField().getText().trim();
             String description = form.getdescriptionArea().getText().trim();
@@ -77,6 +109,15 @@ public class QuizCUPane extends BorderPane {
                 quiz.setTitle(title);
                 quiz.setDescription(description);
                 quizTable.updateQuiz(quiz);
+                ArrayList<QuizQuestion> questions = selectedQuestionList.getQuizQuestions();
+
+                questions.forEach(qu -> {
+                    questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quiz.getId(), qu.getId()));
+                });
+
+                questionQuizzesToDelete.forEach(qq -> {
+                    questionQuizRelationTable.deleteQuestionQuiz(qq);
+                });
                 QuizViewPane.refreshTable();
                 EditQuizTab.closeInstance();
             } else {
@@ -96,19 +137,31 @@ public class QuizCUPane extends BorderPane {
         quizQuestionTable = new QuizQuestionTable();
         questionQuizRelationTable = new QuestionQuizRelationTable();
 
-        // info
-        questions = quizQuestionTable.getAllQuizQuestions();
+        questionQuizzesToDelete = new ArrayList<>();
 
-        questionListView = new ListView<>();
-        questionListView.setItems(FXCollections.observableArrayList(questions));
+        // gui
+        questionSelectionList = new QuestionSelectionList("Available Questions",false);
+        selectedQuestionList = new QuestionSelectionList("Selected Questions",true);
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(form, questionListView);
+        hBox.getChildren().addAll(form, selectedQuestionList, questionSelectionList);
         setCenter(hBox);
         setAlignment(hBox, Pos.CENTER);
 
+        questionSelectionList.getAudButtons().getAddButton().setOnAction(e -> {
+            QuizQuestion q = questionSelectionList.getSelectedQuestion();
+            selectedQuestionList.addQuestion(q);
+            questionSelectionList.removeQuestion(q);
+        });
 
+    }
+
+    private void removeQuestion(Quiz q, QuizQuestion quizQuestion) {
+        QuestionQuiz qq = questionQuizRelationTable.getQuestionQuiz(q.getId(), quizQuestion.getId());
+        if (qq.getId() > 0) {
+            questionQuizzesToDelete.add(qq);
+        }
     }
 
 }

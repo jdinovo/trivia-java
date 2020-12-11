@@ -1,11 +1,13 @@
 package javabean;
 
-public class QuizAnswer extends QuizData {
+import java.util.Objects;
+
+public class QuestionAnswer extends QuizData {
     private boolean correct;
     private QuizQuestion quizQuestion;
 
 
-    public QuizAnswer() {
+    public QuestionAnswer() {
 
     }
 
@@ -14,7 +16,7 @@ public class QuizAnswer extends QuizData {
      * @param answer
      * @param correct
      */
-    public QuizAnswer(String answer, boolean correct) {
+    public QuestionAnswer(String answer, boolean correct) {
         super(answer);
         this.correct = correct;
         this.quizQuestion = null;
@@ -27,10 +29,27 @@ public class QuizAnswer extends QuizData {
      * @param correct
      * @param quizQuestion
      */
-    public QuizAnswer(int id, String answer, boolean correct, QuizQuestion quizQuestion) {
+    public QuestionAnswer(int id, String answer, boolean correct, QuizQuestion quizQuestion) {
         super(id, answer);
         this.correct = correct;
         this.quizQuestion = quizQuestion;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QuestionAnswer)) return false;
+        QuestionAnswer that = (QuestionAnswer) o;
+        return getId() == that.getId() &&
+                getText().equals(that.getText()) &&
+                quizQuestion.equals(that.quizQuestion) &&
+                correct == that.correct;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), super.getText(), quizQuestion, getText());
     }
 
     /**
