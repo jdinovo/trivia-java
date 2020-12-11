@@ -1,10 +1,16 @@
 package javabean;
 
+import tables.QuizQuestionTable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Quiz {
     private int id;
     private User author;
     private String title;
     private String description;
+    private ArrayList<QuizQuestion> questions;
 
     public Quiz() {
     }
@@ -20,6 +26,7 @@ public class Quiz {
 //        this.author = author;
         this.title = title;
         this.description = description;
+        this.questions = new ArrayList<>();
     }
 
     /**
@@ -34,6 +41,8 @@ public class Quiz {
 //        this.author = author;
         this.title = title;
         this.description = description;
+
+        this.questions = new ArrayList<>();
     }
 
     /**
@@ -90,5 +99,24 @@ public class Quiz {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    private void loadAllQuestions() {
+        QuizQuestionTable quizQuestionTable = new QuizQuestionTable();
+        this.questions = quizQuestionTable.getQuestionsForQuiz(this.id);
+    }
+
+    private void randomizeQuestions() {
+        Collections.shuffle(this.questions);
+    }
+
+    public ArrayList<QuizQuestion> getQuestions(boolean randomize) {
+        loadAllQuestions();
+
+        if (randomize) {
+            randomizeQuestions();
+        }
+
+        return this.questions;
     }
 }

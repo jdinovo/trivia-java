@@ -25,7 +25,7 @@ public class AnswerCUForm extends VBox {
 
         addButton = new Button(update ? "Update Answer" : "Add Answer");
 
-        answerArea.setPromptText("Enter a description of the quiz");
+        answerArea.setPromptText("Enter an answer");
         answerArea.setMaxSize(200,200);
         answerArea.setWrapText(true);
 

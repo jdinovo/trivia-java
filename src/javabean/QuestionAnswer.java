@@ -86,6 +86,6 @@ public class QuestionAnswer extends QuizData {
 
     @Override
     public String toString() {
-        return  (correct ? "T" : "F") + " " + super.toString();
+        return  (correct ? "T" : "F") + " | " + super.toString();
     }
 }

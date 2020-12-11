@@ -1,11 +1,16 @@
 package javabean;
 
+import tables.QuestionAnswerTable;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class QuizQuestion extends QuizData {
     private String category;
     private String subcategory;
     private Difficulty difficulty;
+    private ArrayList<QuestionAnswer> answers;
 
     public QuizQuestion() {
     }
@@ -102,6 +107,25 @@ public class QuizQuestion extends QuizData {
      */
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    private void loadAllAnswers() {
+        QuestionAnswerTable questionAnswerTable = new QuestionAnswerTable();
+        this.answers = questionAnswerTable.getAnswersForQuestion(getId());
+    }
+
+    private void randomizeAnswers() {
+        Collections.shuffle(this.answers);
+    }
+
+    public QuestionAnswer[] getAnswers(boolean randomize) {
+        loadAllAnswers();
+
+        if (randomize) {
+            randomizeAnswers();
+        }
+
+        return this.answers.toArray(new QuestionAnswer[answers.size()]);
     }
 
     @Override
