@@ -199,7 +199,7 @@ public class QuestionCUPane extends BorderPane {
             }
         });
 
-        audButtons.getAddButton().setOnAction(e -> {
+        audButtons.getCreateButton().setOnAction(e -> {
             answerCUForm = new AnswerCUForm(false);
             swapAnswerViews(false);
 
@@ -283,7 +283,7 @@ public class QuestionCUPane extends BorderPane {
     }
 
     private void cudAddVisibility(boolean visible) {
-        audButtons.getAddButton().setVisible(visible);
+        audButtons.getCreateButton().setVisible(visible);
     }
 
     private void swapAnswerViews(boolean showList) {

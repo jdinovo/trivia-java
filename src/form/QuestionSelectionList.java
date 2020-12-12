@@ -35,7 +35,7 @@ public class QuestionSelectionList extends VBox {
 
         audButtons.getChildren().remove(audButtons.getUpdateButton());
         if (selectedList) {
-            audButtons.getChildren().remove(audButtons.getAddButton());
+            audButtons.getChildren().remove(audButtons.getCreateButton());
             audButtons.getDeleteButton().setText("Remove");
             audButtons.getDeleteButton().setVisible(false);
         } else {
@@ -73,7 +73,7 @@ public class QuestionSelectionList extends VBox {
             question = questionListView.getSelectionModel().getSelectedItem();
             if (question != null) {
                 audButtons.getDeleteButton().setVisible(true);
-                audButtons.getAddButton().setVisible(true);
+                audButtons.getCreateButton().setVisible(true);
             }
         });
 
@@ -103,7 +103,7 @@ public class QuestionSelectionList extends VBox {
 
     public void removeQuestion(QuizQuestion quizQuestion) {
         quizQuestions.remove(quizQuestion);
-        audButtons.getAddButton().setVisible(false);
+        audButtons.getCreateButton().setVisible(false);
         audButtons.getDeleteButton().setVisible(false);
         refreshList();
     }

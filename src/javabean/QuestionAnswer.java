@@ -24,6 +24,18 @@ public class QuestionAnswer extends QuizData {
 
     /**
      *
+     * @param answer
+     * @param correct
+     * @param quizQuestion
+     */
+    public QuestionAnswer(String answer, boolean correct, QuizQuestion quizQuestion) {
+        super(answer);
+        this.correct = correct;
+        this.quizQuestion = quizQuestion;
+    }
+
+    /**
+     *
      * @param id
      * @param answer
      * @param correct

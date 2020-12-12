@@ -23,7 +23,7 @@ public class Database {
 
         }
         try {
-            createTable(DBConst.TABLE_USERS, DBConst.CREATE_TABLE_USERS, connection);
+//            createTable(DBConst.TABLE_USERS, DBConst.CREATE_TABLE_USERS, connection);
             createTable(DBConst.TABLE_QUIZZES, DBConst.CREATE_TABLE_QUIZZES, connection);
             createTable(DBConst.TABLE_QUESTION_ANSWERS, DBConst.CREATE_TABLE_QUESTION_ANSWERS, connection);
             createTable(DBConst.TABLE_QUIZ_QUESTIONS, DBConst.CREATE_TABLE_QUIZ_QUESTIONS, connection);

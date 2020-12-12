@@ -93,7 +93,7 @@ public class QuizViewPane extends BorderPane {
             return row ;
         });
 
-        sedButtons.getStartButton().setOnAction(e -> {
+        sedButtons.getCreateButton().setOnAction(e -> {
             if (quiz.getQuestions(false).size() > 0) {
                 Main.window.setScene(new QuizScene(quiz));
             } else {
@@ -127,6 +127,8 @@ public class QuizViewPane extends BorderPane {
             alert.setContentText("Are you sure you want to delete this quiz?");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 quizTable.deleteQuiz(quiz);
+                // close any edit tabs open since they might be editing this quiz
+                EditQuizTab.closeInstance();
                 buttonsVisible(false);
                 refreshTable();
             }
