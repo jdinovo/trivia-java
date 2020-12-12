@@ -114,6 +114,8 @@ public class QuestionViewPane extends BorderPane {
             alert.setContentText("Are you sure you want to delete this question?");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 quizQuestionTable.deleteQuizQuestion(quizQuestion);
+                // close any edit tab open cause they might be editing this question
+                EditQuestionTab.closeInstance();
                 buttonsVisible(false);
                 refreshTable();
             }

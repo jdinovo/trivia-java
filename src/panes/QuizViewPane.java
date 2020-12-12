@@ -127,6 +127,8 @@ public class QuizViewPane extends BorderPane {
             alert.setContentText("Are you sure you want to delete this quiz?");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 quizTable.deleteQuiz(quiz);
+                // close any edit tabs open since they might be editing this quiz
+                EditQuizTab.closeInstance();
                 buttonsVisible(false);
                 refreshTable();
             }
