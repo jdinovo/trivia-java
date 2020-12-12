@@ -1,15 +1,16 @@
 package panes;
 
+import database.DBConst;
 import database.Database;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TabPane;
+import database.FileProcessor;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import tabs.NewQuestionTab;
 import tabs.NewQuizTab;
 import tabs.ViewQuestionsTab;
 import tabs.ViewQuizzesTab;
+
+import java.util.Optional;
 
 public class MainMenuPane extends BorderPane {
 
@@ -26,6 +27,7 @@ public class MainMenuPane extends BorderPane {
         // create menu dropdowns
         Menu quizMenu = new Menu("Quiz");
         Menu createMenu = new Menu("Create");
+        Menu importMenu = new Menu("Import/Export");
 
         //creating tabPane
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
@@ -88,13 +90,43 @@ public class MainMenuPane extends BorderPane {
             }
         });
 
+        MenuItem importQuestions = new MenuItem("Import Questions");
+        importQuestions.setOnAction(e-> {
+            TextInputDialog inputDialog = new TextInputDialog("filepath");
+            inputDialog.setTitle("Import Questions");
+            inputDialog.setContentText("Enter the file path: ");
+            inputDialog.setHeaderText("Questions JSON File Path");
+
+            Optional<String> result = inputDialog.showAndWait();
+
+
+            result.ifPresent(path -> {
+                // insert create default questions
+                FileProcessor fp = new FileProcessor();
+                fp.readQuestionsIntoDB(path);
+
+                ViewQuestionsTab viewQuestionsTab = ViewQuestionsTab.getInstance();
+                //if tab is not already open
+                if (!tabPane.getTabs().contains(viewQuestionsTab) && !tabPane.getTabs().contains(ViewQuestionsTab.getInstance())) {
+                    tabPane.getTabs().add(viewQuestionsTab);
+                    tabPane.getSelectionModel().select(viewQuestionsTab);
+                } else if (tabPane.getTabs().contains(ViewQuestionsTab.getInstance())) {
+                    tabPane.getSelectionModel().select(ViewQuestionsTab.getInstance());
+                } else {
+                    tabPane.getSelectionModel().select(viewQuestionsTab);
+                }
+            });
+
+        });
+
 
         // add menu items to menus
         createMenu.getItems().addAll(newQuiz, newQuestion);
         quizMenu.getItems().addAll(viewQuizzes, viewQuestions);
+        importMenu.getItems().addAll(importQuestions);
 
         // add menus to menubar
-        menu.getMenus().addAll(quizMenu, createMenu);
+        menu.getMenus().addAll(quizMenu, createMenu, importMenu);
 
         // add menubar, tabpane to pane
         this.setTop(menu);

@@ -36,6 +36,10 @@ public abstract class QuizData {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      *
      * @return String text data
