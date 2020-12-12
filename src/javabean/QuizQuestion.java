@@ -130,6 +130,6 @@ public class QuizQuestion extends QuizData {
 
     @Override
     public String toString() {
-        return "\""+ super.toString() + "\" | " + difficulty + " | " + category + (subcategory.isEmpty() ? "" : ": " + subcategory);
+        return "\""+ super.toString() + "\"\n" + difficulty + "\n" + category + (subcategory.isEmpty() ? "" : ": " + subcategory);
     }
 }

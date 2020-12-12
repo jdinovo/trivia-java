@@ -4,16 +4,15 @@ import form.SEDButtons;
 import javabean.Quiz;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.Main;
 import scenes.QuizScene;
 import tables.QuizTable;
 import tabs.EditQuizTab;
-import tabs.NewQuizTab;
 
 public class QuizViewPane extends BorderPane {
 
@@ -37,14 +36,40 @@ public class QuizViewPane extends BorderPane {
 
         tableView.setEditable(false);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableView.setFixedCellSize(25);
+//        tableView.setFixedCellSize(25);
         tableView.setPrefHeight(700);
 
         TableColumn<Quiz, String> titleCol = new TableColumn<>("Title");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        titleCol.setCellFactory(param -> new TableCell<Quiz, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    Text text = new Text(item);
+                    text.wrappingWidthProperty().bind(getTableColumn().widthProperty().subtract(35));
+                    setGraphic(text);
+                }
+            }
+        });
 
         TableColumn<Quiz, String> descriptionCol = new TableColumn<>("Description");
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descriptionCol.setCellFactory(param -> new TableCell<Quiz, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    Text text = new Text(item);
+                    text.wrappingWidthProperty().bind(getTableColumn().widthProperty().subtract(35));
+                    setGraphic(text);
+                }
+            }
+        });
 
         tableView.getColumns().addAll(titleCol, descriptionCol);
 
@@ -69,7 +94,16 @@ public class QuizViewPane extends BorderPane {
         });
 
         sedButtons.getStartButton().setOnAction(e -> {
-            Main.window.setScene(new QuizScene(quiz));
+            if (quiz.getQuestions(false).size() > 0) {
+                Main.window.setScene(new QuizScene(quiz));
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No Questions");
+                alert.setHeaderText("This quiz has no questions!");
+                alert.setGraphic(null);
+                alert.setContentText("Add questions to the quiz and try again.");
+                alert.show();
+            }
         });
 
         sedButtons.getUpdateButton().setOnAction(e -> {

@@ -1,12 +1,14 @@
 package panes;
 
 import form.SEDButtons;
+import javabean.QuestionResult;
 import javabean.QuizQuestion;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.Main;
 import scenes.QuizScene;
@@ -36,11 +38,24 @@ public class QuestionViewPane extends BorderPane {
 
         tableView.setEditable(false);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableView.setFixedCellSize(25);
+//        tableView.setFixedCellSize(25);
         tableView.setPrefHeight(700);
 
         TableColumn<QuizQuestion, String> questionCol = new TableColumn<>("Question");
         questionCol.setCellValueFactory(new PropertyValueFactory<>("text"));
+        questionCol.setCellFactory(param -> new TableCell<QuizQuestion, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    Text text = new Text(item);
+                    text.wrappingWidthProperty().bind(getTableColumn().widthProperty().subtract(35));
+                    setGraphic(text);
+                }
+            }
+        });
 
         TableColumn<QuizQuestion, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("category"));

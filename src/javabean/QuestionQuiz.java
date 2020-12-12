@@ -1,10 +1,12 @@
 package javabean;
 
+import java.util.Objects;
+
 public class QuestionQuiz {
     private int id;
     private int quizId;
     private int questionId;
-    private int orderNumber;
+//    private int orderNumber;
 
     public QuestionQuiz() {
 
@@ -40,4 +42,19 @@ public class QuestionQuiz {
 //        return orderNumber;
 //    }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QuestionQuiz)) return false;
+        QuestionQuiz that = (QuestionQuiz) o;
+        return id == that.id &&
+                quizId == that.quizId &&
+                questionId == that.questionId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quizId, questionId);
+    }
 }

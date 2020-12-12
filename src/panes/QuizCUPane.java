@@ -16,6 +16,7 @@ import tabs.EditQuizTab;
 import tabs.NewQuizTab;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class QuizCUPane extends BorderPane {
@@ -26,12 +27,15 @@ public class QuizCUPane extends BorderPane {
     private QuestionQuizRelationTable questionQuizRelationTable;
 
     // information
-    ArrayList<QuestionQuiz> questionQuizzesToDelete;
+    HashSet<QuestionQuiz> questionQuizzesToDelete;
 
     // gui items
     private QuestionSelectionList questionSelectionList;
     private QuestionSelectionList selectedQuestionList;
     private final QuizCUForm form;
+
+    // alert
+    Alert alert;
 
     public QuizCUPane() {
 
@@ -58,6 +62,9 @@ public class QuizCUPane extends BorderPane {
                 questions.forEach(qu -> {
                     questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quizId, qu.getId()));
                 });
+
+                alert.show();
+
                 QuizViewPane.refreshTable();
                 NewQuizTab.closeInstance();
             } else {
@@ -111,13 +118,16 @@ public class QuizCUPane extends BorderPane {
                 quizTable.updateQuiz(quiz);
                 ArrayList<QuizQuestion> questions = selectedQuestionList.getQuizQuestions();
 
+                questionQuizzesToDelete.forEach(qq -> {
+                    questionQuizRelationTable.deleteQuestionQuiz(qq);
+                });
+
                 questions.forEach(qu -> {
                     questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quiz.getId(), qu.getId()));
                 });
 
-                questionQuizzesToDelete.forEach(qq -> {
-                    questionQuizRelationTable.deleteQuestionQuiz(qq);
-                });
+                alert.show();
+
                 QuizViewPane.refreshTable();
                 EditQuizTab.closeInstance();
             } else {
@@ -132,12 +142,19 @@ public class QuizCUPane extends BorderPane {
     }
 
     private void generalLayout() {
+        // alert
+        // alert
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Quiz Data Saved");
+        alert.setContentText("The quiz data was saved successfully!");
+
         // db access
         quizTable = new QuizTable();
         quizQuestionTable = new QuizQuestionTable();
         questionQuizRelationTable = new QuestionQuizRelationTable();
 
-        questionQuizzesToDelete = new ArrayList<>();
+        questionQuizzesToDelete = new HashSet<>();
 
         // gui
         questionSelectionList = new QuestionSelectionList("Available Questions",false);

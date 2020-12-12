@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Map;
 
+import static main.Const.BODY_FONT;
+
 
 public class QuestionCUForm extends VBox {
 
@@ -29,9 +31,13 @@ public class QuestionCUForm extends VBox {
     public QuestionCUForm(boolean update) {
 
         questionLabel = new Label("Question");
+        questionLabel.setFont(BODY_FONT);
         categoryLabel = new Label("Category");
+        categoryLabel.setFont(BODY_FONT);
         subcategoryLabel = new Label("Subcategory");
+        subcategoryLabel.setFont(BODY_FONT);
         difficultylabel = new Label("Difficulty");
+        difficultylabel.setFont(BODY_FONT);
         categoryMap = CategoryChoice.getCategoryModel();
 
         comboCategory = new ComboBox<>();
@@ -62,19 +68,20 @@ public class QuestionCUForm extends VBox {
         comboCategory.setVisibleRowCount(5);
         comboSubcategory.setVisibleRowCount(5);
 
-        comboCategory.setMaxWidth(200);
-        comboSubcategory.setMaxWidth(200);
-        comboDifficulty.setMaxWidth(200);
+        comboCategory.setMaxWidth(400);
+        comboSubcategory.setMaxWidth(400);
+        comboDifficulty.setMaxWidth(400);
 
         questionArea = new TextArea();
         questionArea.setPromptText("Enter the question");
-        questionArea.setMaxSize(200,200);
+        questionArea.setMaxSize(400,200);
         questionArea.setWrapText(true);
 
-        createButton = new Button(update ? "Update" : "Create");
-        createButton.setPrefSize(200, 50);
+        createButton = new Button(update ? "Update Question" : "Create Question");
+        createButton.setStyle("-fx-base: " + (update ? "rgb(200,100,0);" : "rgb(0,130,0);") + " -fx-text-fill: rgb(255,255,255);");
+        createButton.setPrefSize(400, 50);
 
-        setPrefSize(200, 400);
+        setPrefSize(400, 400);
         setSpacing(10);
         setPadding(new Insets(10));
         setAlignment(Pos.CENTER);
