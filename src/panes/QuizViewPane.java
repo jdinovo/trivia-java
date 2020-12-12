@@ -93,7 +93,7 @@ public class QuizViewPane extends BorderPane {
             return row ;
         });
 
-        sedButtons.getStartButton().setOnAction(e -> {
+        sedButtons.getCreateButton().setOnAction(e -> {
             if (quiz.getQuestions(false).size() > 0) {
                 Main.window.setScene(new QuizScene(quiz));
             } else {

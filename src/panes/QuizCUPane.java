@@ -166,7 +166,7 @@ public class QuizCUPane extends BorderPane {
         setCenter(hBox);
         setAlignment(hBox, Pos.CENTER);
 
-        questionSelectionList.getAudButtons().getAddButton().setOnAction(e -> {
+        questionSelectionList.getAudButtons().getCreateButton().setOnAction(e -> {
             QuizQuestion q = questionSelectionList.getSelectedQuestion();
             selectedQuestionList.addQuestion(q);
             questionSelectionList.removeQuestion(q);
