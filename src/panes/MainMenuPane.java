@@ -92,7 +92,7 @@ public class MainMenuPane extends BorderPane {
 
         MenuItem importQuestions = new MenuItem("Import Questions");
         importQuestions.setOnAction(e-> {
-            TextInputDialog inputDialog = new TextInputDialog("filepath");
+            TextInputDialog inputDialog = new TextInputDialog("example_questions.json");
             inputDialog.setTitle("Import Questions");
             inputDialog.setContentText("Enter the file path: ");
             inputDialog.setHeaderText("Questions JSON File Path");
