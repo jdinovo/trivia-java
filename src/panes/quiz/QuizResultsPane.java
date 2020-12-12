@@ -3,15 +3,15 @@ package panes.quiz;
 import javabean.QuestionResult;
 import javabean.Quiz;
 import javabean.QuizQuestion;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import main.Main;
 import scenes.QuizScene;
@@ -61,14 +61,43 @@ public class QuizResultsPane extends BorderPane {
 
         tableView.setEditable(false);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableView.setFixedCellSize(25);
+//        tableView.setFixedCellSize(25);
         tableView.setPrefHeight(600);
 
         TableColumn<QuestionResult, String> questionCol = new TableColumn<>("Question");
-        questionCol.setCellValueFactory(new PropertyValueFactory<>("quizQuestion"));
+        questionCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuizQuestion().getText()));
+        questionCol.setCellFactory(param -> new TableCell<QuestionResult, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    Text text = new Text(item);
+                    text.wrappingWidthProperty().bind(getTableColumn().widthProperty().subtract(35));
+                    setGraphic(text);
+                }
+            }
+        });
 
         TableColumn<QuestionResult, String> correctCol = new TableColumn<>("Selected Answer");
-        correctCol.setCellValueFactory(new PropertyValueFactory<>("questionAnswer"));
+        correctCol.setCellValueFactory(cellData -> {
+            String formatted = (cellData.getValue().getQuestionAnswer().isCorrect() ? "Correct" : "Incorrect") + ": " + cellData.getValue().getQuestionAnswer().getText();
+            return new SimpleStringProperty(formatted);
+        });
+        correctCol.setCellFactory(param -> new TableCell<QuestionResult, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    Text text = new Text(item);
+                    text.wrappingWidthProperty().bind(getTableColumn().widthProperty().subtract(35));
+                    setGraphic(text);
+                }
+            }
+        });
 
         tableView.getColumns().addAll(questionCol, correctCol);
 

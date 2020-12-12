@@ -8,10 +8,7 @@ import javabean.QuestionAnswer;
 import javabean.QuizQuestion;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,6 +18,9 @@ import tabs.EditQuestionTab;
 import tabs.NewQuestionTab;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+
+import static main.Const.BODY_FONT;
 
 public class QuestionCUPane extends BorderPane {
 
@@ -36,12 +36,15 @@ public class QuestionCUPane extends BorderPane {
 
     // items
     private ArrayList<QuestionAnswer> answers;
-    private ArrayList<QuestionAnswer> toDelete;
+    private HashSet<QuestionAnswer> answersToDelete;
     private QuestionAnswer answer;
 
     // boxes
     private HBox centeredBox;
     private VBox answerListBox;
+
+    // alert
+    Alert alert;
 
     public QuestionCUPane() {
         generalLayout();
@@ -63,6 +66,9 @@ public class QuestionCUPane extends BorderPane {
                     answer.setQuizQuestion(new QuizQuestion(quizId, categoryText, subCategoryText, difficulty, questionText));
                     questionAnswerTable.createQuestionAnswer(answer);
                 });
+
+                alert.show();
+
                 QuestionViewPane.refreshTable();
                 NewQuestionTab.closeInstance();
             } else {
@@ -105,6 +111,11 @@ public class QuestionCUPane extends BorderPane {
                 quizQuestion.setDifficulty(difficulty);
                 quizQuestionTable.updateQuizQuestion(quizQuestion);
 
+                // delete answers
+                answersToDelete.forEach(ans -> {
+                    questionAnswerTable.deleteQuestionAnswer(ans);
+                });
+
                 // update or create answers
                 answers.forEach(ans -> {
                     if (ans.getId() > 0) {
@@ -115,10 +126,8 @@ public class QuestionCUPane extends BorderPane {
                     }
                 });
 
-                // delete answers
-                toDelete.forEach(ans -> {
-                    questionAnswerTable.deleteQuestionAnswer(ans);
-                });
+                alert.show();
+
                 QuestionViewPane.refreshTable();
                 EditQuestionTab.closeInstance();
             } else {
@@ -133,6 +142,13 @@ public class QuestionCUPane extends BorderPane {
     }
 
     private void generalLayout() {
+        // alert
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setGraphic(null);
+        alert.setHeaderText("Question Data Saved");
+        alert.setContentText("The question data was saved successfully!");
+
         answer = new QuestionAnswer();
 
         // db access
@@ -140,16 +156,32 @@ public class QuestionCUPane extends BorderPane {
         quizQuestionTable = new QuizQuestionTable();
 
         // gui
-        Label answerListLabel = new Label("Four(4) Answers");
+        Label answerListLabel = new Label("Four Answers");
+        answerListLabel.setFont(BODY_FONT);
         audButtons = new AUDButtons();
         cudEditDeleteVisibility(false);
 
         answers = new ArrayList<>();
-        toDelete = new ArrayList<>();
+        answersToDelete = new HashSet<>();
 
         answerListView = new ListView<>();
         updateListView();
-        answerListView.setMaxSize(200, 125);
+        answerListView.setCellFactory(param -> new ListCell<QuestionAnswer>(){
+            @Override
+            protected void updateItem(QuestionAnswer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    // set width
+                    setPrefWidth(param.getWidth() - 20);
+                    // set wrapping
+                    setWrapText(true);
+                    setText(item.toString());
+                }
+            }
+        });
+        answerListView.setPrefSize(400, 200);
 
         answerListBox = new VBox();
         answerListBox.setAlignment(Pos.CENTER);
@@ -225,7 +257,6 @@ public class QuestionCUPane extends BorderPane {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Deletion");
             alert.setHeaderText("Are you sure?");
-            alert.setGraphic(null);
             alert.setContentText("Are you sure you want to delete this answer?");
             if (alert.showAndWait().get() == ButtonType.OK) {
                 removeAnswer(answer);
@@ -241,7 +272,7 @@ public class QuestionCUPane extends BorderPane {
 
     private void removeAnswer(QuestionAnswer ans) {
         if (ans.getId() > 0) {
-            toDelete.add(ans);
+            answersToDelete.add(ans);
         }
         answers.remove(ans);
     }

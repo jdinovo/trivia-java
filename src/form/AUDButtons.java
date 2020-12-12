@@ -12,22 +12,22 @@ public class AUDButtons extends HBox {
 
         addButton = new Button("Add");
         updateButton = new Button("Edit");
-        deleteButton = new Button("Del");
+        deleteButton = new Button("Delete");
 
         addButton.setStyle("-fx-base: rgb(0,130,0); -fx-text-fill: rgb(255,255,255);");
         updateButton.setStyle("-fx-base: rgb(200,100,0); -fx-text-fill: rgb(255,255,255);");
         deleteButton.setStyle("-fx-base: rgb(180,0,0); -fx-text-fill: rgb(255,255,255);");
 
-        addButton.setPrefSize(50, 50);
-        updateButton.setPrefSize(50, 50);
-        deleteButton.setPrefSize(50, 50);
+        addButton.setPrefSize(100, 50);
+        updateButton.setPrefSize(100, 50);
+        deleteButton.setPrefSize(100, 50);
 
         setAlignment(Pos.CENTER);
         setSpacing(5);
         setPadding(new Insets(5));
         getChildren().addAll(addButton, updateButton, deleteButton);
 
-        setPrefSize(170, 50);
+        setPrefSize(315, 50);
     }
 
     public Button getAddButton() {
