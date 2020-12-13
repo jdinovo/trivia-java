@@ -1,7 +1,6 @@
 package panes;
 
 import form.SEDButtons;
-import javabean.QuestionResult;
 import javabean.QuizQuestion;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -10,11 +9,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import main.Main;
-import scenes.QuizScene;
 import tables.QuizQuestionTable;
 import tabs.EditQuestionTab;
-import tabs.EditQuizTab;
+
 
 public class QuestionViewPane extends BorderPane {
 
@@ -64,8 +61,8 @@ public class QuestionViewPane extends BorderPane {
         difficultyCol.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
 
         questionCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.7));
-        categoryCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        difficultyCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.098));
+        categoryCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.19));
+        difficultyCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.09));
 
         questionCol.setResizable(false);
         categoryCol.setResizable(false);

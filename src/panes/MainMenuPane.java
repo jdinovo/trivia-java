@@ -1,10 +1,10 @@
 package panes;
 
-import database.DBConst;
 import database.Database;
 import database.FileProcessor;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import tables.QuizQuestionTable;
 import tabs.NewQuestionTab;
 import tabs.NewQuizTab;
 import tabs.ViewQuestionsTab;
@@ -18,7 +18,7 @@ public class MainMenuPane extends BorderPane {
 
     public MainMenuPane() {
 
-        // Access db instance
+        // Initialize db instance
         Database db = Database.getInstance();
 
         // create menu bar
@@ -31,6 +31,9 @@ public class MainMenuPane extends BorderPane {
 
         //creating tabPane
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+
+        // creating file processor
+        FileProcessor fp = new FileProcessor();
 
         //Create MenuItems for the create Tab
         MenuItem newQuiz = new MenuItem("New Quiz");
@@ -102,7 +105,6 @@ public class MainMenuPane extends BorderPane {
 
             result.ifPresent(path -> {
                 // insert create default questions
-                FileProcessor fp = new FileProcessor();
                 fp.readQuestionsIntoDB(path);
 
                 ViewQuestionsTab viewQuestionsTab = ViewQuestionsTab.getInstance();
@@ -119,11 +121,28 @@ public class MainMenuPane extends BorderPane {
 
         });
 
+        MenuItem exportQuestions = new MenuItem("Export Questions");
+        exportQuestions.setOnAction(e-> {
+            TextInputDialog inputDialog = new TextInputDialog("questions_export.json");
+            inputDialog.setTitle("Export Questions");
+            inputDialog.setContentText("Enter the file name: ");
+            inputDialog.setHeaderText("Export Questions JSON File Name");
+
+            Optional<String> result = inputDialog.showAndWait();
+
+
+            result.ifPresent(name -> {
+                // export
+                QuizQuestionTable quizQuestionTable = new QuizQuestionTable();
+                fp.exportQuestionsToFile(quizQuestionTable.getAllQuizQuestions(), name);
+            });
+
+        });
 
         // add menu items to menus
         createMenu.getItems().addAll(newQuiz, newQuestion);
         quizMenu.getItems().addAll(viewQuizzes, viewQuestions);
-        importMenu.getItems().addAll(importQuestions);
+        importMenu.getItems().addAll(importQuestions, exportQuestions);
 
         // add menus to menubar
         menu.getMenus().addAll(quizMenu, createMenu, importMenu);

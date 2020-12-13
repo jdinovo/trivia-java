@@ -7,10 +7,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import tables.QuizQuestionTable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static main.Const.BODY_FONT;
 
@@ -22,6 +24,7 @@ public class QuestionSelectionList extends VBox {
     private AUDButtons audButtons;
     private QuizQuestionTable quizQuestionTable;
     private Label listLabel;
+    private TextField searchBox;
 
     public QuestionSelectionList(String label, boolean selectedList) {
         quizQuestionTable = new QuizQuestionTable();
@@ -32,6 +35,8 @@ public class QuestionSelectionList extends VBox {
         questionListView = new ListView<>();
         quizQuestions = new ArrayList<>();
         audButtons = new AUDButtons();
+        searchBox = new TextField();
+        searchBox.setPromptText("Filter questions");
 
         audButtons.getChildren().remove(audButtons.getUpdateButton());
         if (selectedList) {
@@ -51,7 +56,7 @@ public class QuestionSelectionList extends VBox {
                     setText(null);
                 } else {
                     // set width
-                    setPrefWidth(param.getWidth() - 10);
+                    setPrefWidth(param.getWidth() - 20);
                     // set wrapping
                     setWrapText(true);
                     setText(item.toString());
@@ -66,7 +71,21 @@ public class QuestionSelectionList extends VBox {
         setPadding(new Insets(10));
         setAlignment(Pos.CENTER);
 
-        getChildren().addAll(listLabel, questionListView, audButtons);
+        if (selectedList) {
+            getChildren().addAll(listLabel, questionListView, audButtons);
+        } else {
+            getChildren().addAll(listLabel, searchBox, questionListView, audButtons);
+        }
+
+        searchBox.setOnKeyReleased(e -> {
+            String search = searchBox.getText().trim();
+            if (!search.isEmpty()) {
+                quizQuestions = quizQuestionTable.searchQuizQuestions(search);
+            } else {
+                quizQuestions = quizQuestionTable.getAllQuizQuestions();
+            }
+            refreshList();
+        });
 
 
         questionListView.setOnMousePressed(e -> {
@@ -97,8 +116,10 @@ public class QuestionSelectionList extends VBox {
     }
 
     public void addQuestion(QuizQuestion quizQuestion) {
-        this.quizQuestions.add(quizQuestion);
-        refreshList();
+        if (!quizQuestions.contains(quizQuestion)) {
+            this.quizQuestions.add(quizQuestion);
+            refreshList();
+        }
     }
 
     public void removeQuestion(QuizQuestion quizQuestion) {

@@ -1,5 +1,7 @@
 package javabean;
 
+import org.json.simple.JSONObject;
+
 import java.util.Objects;
 
 public class QuestionAnswer extends QuizData {
@@ -94,6 +96,19 @@ public class QuestionAnswer extends QuizData {
      */
     public void setQuizQuestion(QuizQuestion quizQuestion) {
         this.quizQuestion = quizQuestion;
+    }
+
+    public static QuestionAnswer jsonToQuestionAnswer(JSONObject object, QuizQuestion question) {
+        return new QuestionAnswer(object.get("answer").toString(), (boolean) object.get("correct"), question);
+    }
+
+    public static JSONObject questionAnswerToJson(QuestionAnswer questionAnswer) {
+        JSONObject answerObject = new JSONObject();
+
+        answerObject.put("answer", questionAnswer.getText());
+        answerObject.put("correct", questionAnswer.isCorrect());
+
+        return answerObject;
     }
 
     @Override
