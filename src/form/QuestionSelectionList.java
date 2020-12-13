@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import tables.QuizQuestionTable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import static main.Const.BODY_FONT;
 

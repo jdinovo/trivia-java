@@ -1,6 +1,5 @@
 package javabean;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import tables.QuestionAnswerTable;
 

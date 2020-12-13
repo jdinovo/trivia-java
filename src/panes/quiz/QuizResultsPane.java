@@ -2,17 +2,13 @@ package panes.quiz;
 
 import javabean.QuestionResult;
 import javabean.Quiz;
-import javabean.QuizQuestion;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import main.Main;
 import scenes.QuizScene;
 

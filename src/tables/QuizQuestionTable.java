@@ -4,7 +4,6 @@ import dao.QuizQuestionDAO;
 import database.DBConst;
 import database.Database;
 import javabean.Difficulty;
-import javabean.QuestionQuiz;
 import javabean.QuizQuestion;
 
 import java.sql.PreparedStatement;
