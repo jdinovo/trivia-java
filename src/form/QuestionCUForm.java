@@ -56,7 +56,7 @@ public class QuestionCUForm extends VBox {
         comboCategory.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             List<String> subCategories = categoryMap.get(newValue);
             comboSubcategory.setValue("");
-            if (subCategories.size() > 0) {
+            if (subCategories != null && subCategories.size() > 0) {
                 comboSubcategory.setItems(FXCollections.observableList(subCategories));
                 subcategoryLabel.setVisible(true);
                 comboSubcategory.setVisible(true);
