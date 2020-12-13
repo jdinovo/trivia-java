@@ -35,7 +35,7 @@ public class QuizCUPane extends BorderPane {
     private final QuizCUForm form;
 
     // alert
-    Alert alert;
+    Alert alertSuccess;
 
     public QuizCUPane() {
 
@@ -63,10 +63,11 @@ public class QuizCUPane extends BorderPane {
                     questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quizId, qu.getId()));
                 });
 
-                alert.show();
-
                 QuizViewPane.refreshTable();
                 NewQuizTab.closeInstance();
+
+                alertSuccess.show();
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -126,10 +127,11 @@ public class QuizCUPane extends BorderPane {
                     questionQuizRelationTable.createQuestionQuiz(new QuestionQuiz(quiz.getId(), qu.getId()));
                 });
 
-                alert.show();
-
                 QuizViewPane.refreshTable();
                 EditQuizTab.closeInstance();
+
+                alertSuccess.show();
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -144,10 +146,10 @@ public class QuizCUPane extends BorderPane {
     private void generalLayout() {
         // alert
         // alert
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText("Quiz Data Saved");
-        alert.setContentText("The quiz data was saved successfully!");
+        alertSuccess = new Alert(Alert.AlertType.INFORMATION);
+        alertSuccess.setTitle("Success");
+        alertSuccess.setHeaderText("Quiz Data Saved");
+        alertSuccess.setContentText("The quiz data was saved successfully!");
 
         // db access
         quizTable = new QuizTable();

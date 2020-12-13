@@ -44,7 +44,7 @@ public class QuestionCUPane extends BorderPane {
     private VBox answerListBox;
 
     // alert
-    Alert alert;
+    Alert alertSuccess;
 
     public QuestionCUPane() {
         generalLayout();
@@ -67,10 +67,11 @@ public class QuestionCUPane extends BorderPane {
                     questionAnswerTable.createQuestionAnswer(answer);
                 });
 
-                alert.show();
-
                 QuestionViewPane.refreshTable();
                 NewQuestionTab.closeInstance();
+
+                alertSuccess.show();
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -126,10 +127,11 @@ public class QuestionCUPane extends BorderPane {
                     }
                 });
 
-                alert.show();
-
                 QuestionViewPane.refreshTable();
                 EditQuestionTab.closeInstance();
+
+                alertSuccess.show();
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -143,11 +145,11 @@ public class QuestionCUPane extends BorderPane {
 
     private void generalLayout() {
         // alert
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setGraphic(null);
-        alert.setHeaderText("Question Data Saved");
-        alert.setContentText("The question data was saved successfully!");
+        alertSuccess = new Alert(Alert.AlertType.INFORMATION);
+        alertSuccess.setTitle("Success");
+        alertSuccess.setGraphic(null);
+        alertSuccess.setHeaderText("Question Data Saved");
+        alertSuccess.setContentText("The question data was saved successfully!");
 
         answer = new QuestionAnswer();
 

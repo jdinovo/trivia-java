@@ -51,7 +51,7 @@ public class QuestionSelectionList extends VBox {
                     setText(null);
                 } else {
                     // set width
-                    setPrefWidth(param.getWidth() - 10);
+                    setPrefWidth(param.getWidth() - 20);
                     // set wrapping
                     setWrapText(true);
                     setText(item.toString());
