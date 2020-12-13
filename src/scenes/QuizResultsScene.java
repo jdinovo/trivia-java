@@ -2,9 +2,7 @@ package scenes;
 
 import javabean.QuestionResult;
 import javabean.Quiz;
-import javabean.QuizQuestion;
 import javafx.scene.Scene;
-import javafx.util.Pair;
 import main.Construct;
 import panes.quiz.QuizResultsPane;
 

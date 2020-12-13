@@ -3,7 +3,6 @@ package tabs;
 import javabean.QuizQuestion;
 import javafx.scene.control.Tab;
 import panes.QuestionCUPane;
-import panes.QuizCUPane;
 
 public class EditQuestionTab extends Tab {
     private static EditQuestionTab tab;
