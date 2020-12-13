@@ -1,6 +1,5 @@
 package database;
 
-import javabean.Difficulty;
 import javabean.QuestionAnswer;
 import javabean.QuizQuestion;
 import javafx.scene.control.Alert;
@@ -13,6 +12,7 @@ import tables.QuestionAnswerTable;
 import tables.QuizQuestionTable;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class FileProcessor {
@@ -45,39 +45,18 @@ public class FileProcessor {
                 // extract object
                 JSONObject object = qIterator.next();
 
-                // get category and sub category
-                String[] catArray = object.get("category").toString().split(":");
-
-                // get difficulty
-                Difficulty difficulty;
-                switch (object.get("difficulty").toString()) {
-                    case "hard":
-                        difficulty = Difficulty.HARD;
-                        break;
-                    case "easy":
-                        difficulty = Difficulty.EASY;
-                        break;
-                    default:
-                        difficulty = Difficulty.NORMAL;
-                }
-
-                // get question text
-                String questionText = object.get("question").toString();
-
                 // create question
-                QuizQuestion question = new QuizQuestion(catArray[0], (catArray.length > 1 ? catArray[1].trim() : ""), difficulty, questionText);
+                QuizQuestion question = QuizQuestion.jsonToQuizQuestion(object);
 
                 // store question in DB and get id
                 question.setId(quizQuestionTable.createQuizQuestion(question));
 
-                // create correct answer
-                String correctAnswer = object.get("correct_answer").toString();
-                questionAnswerTable.createQuestionAnswer(new QuestionAnswer(correctAnswer, true, question));
-
-                // create incorrect answers
-                JSONArray incorrectAnswerJSON = (JSONArray) object.get("incorrect_answers");
-                for (Object answerObject : incorrectAnswerJSON) {
-                    questionAnswerTable.createQuestionAnswer(new QuestionAnswer(answerObject.toString(), false, question));
+                // create answers
+                JSONArray incorrectAnswerJSON = (JSONArray) object.get("answers");
+                Iterator<JSONObject> answerIterator = incorrectAnswerJSON.iterator();
+                while (answerIterator.hasNext()){
+                    JSONObject ansObj = answerIterator.next();
+                    questionAnswerTable.createQuestionAnswer(QuestionAnswer.jsonToQuestionAnswer(ansObj, question));
                 }
 
             }
@@ -87,6 +66,13 @@ public class FileProcessor {
             // refresh table
             QuestionViewPane.refreshTable();
 
+            // alert
+            Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);
+            alertSuccess.setTitle("Success");
+            alertSuccess.setHeaderText("Quiz Questions Imported");
+            alertSuccess.setContentText("The quiz questions were successfully imported!");
+            alertSuccess.show();
+
         } catch (ParseException | IOException e) {
             e.printStackTrace();
 
@@ -94,6 +80,48 @@ public class FileProcessor {
             alert.setTitle("Error");
             alert.setHeaderText("Error Importing JSON");
             alert.setContentText("Ensure the file path is correct and the JSON data is not malformed!");
+            alert.show();
+        }
+    }
+
+    public void exportQuestionsToFile(ArrayList<QuizQuestion> quizQuestions, String filename) {
+
+        JSONArray questionArray = new JSONArray();
+
+        for(QuizQuestion question : quizQuestions) {
+            JSONObject qObject = QuizQuestion.quizQuestionToJson(question);
+
+            QuestionAnswer[] answers = question.getAnswers(false);
+            JSONArray answerArray = new JSONArray();
+
+            for (QuestionAnswer answer : answers) {
+                answerArray.add(QuestionAnswer.questionAnswerToJson(answer));
+            }
+
+            qObject.put("answers", answerArray);
+
+            questionArray.add(qObject);
+        }
+
+        try (FileWriter file = new FileWriter(filename)) {
+
+            file.write(questionArray.toJSONString());
+            file.flush();
+
+            // alert
+            Alert alertSuccess = new Alert(Alert.AlertType.INFORMATION);
+            alertSuccess.setTitle("Success");
+            alertSuccess.setHeaderText("Quiz Questions Exported");
+            alertSuccess.setContentText("The quiz questions were successfully exported to `" + filename + "`!");
+            alertSuccess.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error Exporting JSON");
+            alert.setContentText("There was an error exporting the quiz questions to JSON!");
             alert.show();
         }
     }

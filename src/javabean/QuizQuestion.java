@@ -1,5 +1,7 @@
 package javabean;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import tables.QuestionAnswerTable;
 
 import java.util.ArrayList;
@@ -126,6 +128,50 @@ public class QuizQuestion extends QuizData {
         }
 
         return this.answers.toArray(new QuestionAnswer[answers.size()]);
+    }
+
+    public static QuizQuestion jsonToQuizQuestion(JSONObject object) {
+
+        // get category and sub category
+        String[] catArray = object.get("category").toString().split(":");
+
+        // get difficulty
+        Difficulty difficulty;
+        switch (object.get("difficulty").toString()) {
+            case "hard":
+                difficulty = Difficulty.HARD;
+                break;
+            case "easy":
+                difficulty = Difficulty.EASY;
+                break;
+            default:
+                difficulty = Difficulty.NORMAL;
+        }
+
+        // get question text
+        String questionText = object.get("question").toString();
+
+        return new QuizQuestion(catArray[0], (catArray.length > 1 ? catArray[1].trim() : ""), difficulty, questionText);
+    }
+
+    public static JSONObject quizQuestionToJson(QuizQuestion quizQuestion) {
+        JSONObject object = new JSONObject();
+
+        object.put("category", (quizQuestion.getCategory() + (quizQuestion.getSubcategory().isEmpty() ? "" : ": " + quizQuestion.getSubcategory())));
+
+        switch (quizQuestion.getDifficulty()) {
+            case EASY:
+                object.put("difficulty", "easy");
+                break;
+            case HARD:
+                object.put("difficulty", "hard");
+                break;
+            default:
+                object.put("difficulty", "normal");
+        }
+        object.put("question", quizQuestion.getText());
+
+        return object;
     }
 
     @Override
