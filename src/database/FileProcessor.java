@@ -52,8 +52,8 @@ public class FileProcessor {
                 question.setId(quizQuestionTable.createQuizQuestion(question));
 
                 // create answers
-                JSONArray incorrectAnswerJSON = (JSONArray) object.get("answers");
-                Iterator<JSONObject> answerIterator = incorrectAnswerJSON.iterator();
+                JSONArray answersJSON = (JSONArray) object.get("answers");
+                Iterator<JSONObject> answerIterator = answersJSON.iterator();
                 while (answerIterator.hasNext()){
                     JSONObject ansObj = answerIterator.next();
                     questionAnswerTable.createQuestionAnswer(QuestionAnswer.jsonToQuestionAnswer(ansObj, question));
