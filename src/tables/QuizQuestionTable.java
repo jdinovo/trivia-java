@@ -129,7 +129,25 @@ public class QuizQuestionTable implements QuizQuestionDAO {
     }
 
     public ArrayList<QuizQuestion> searchQuizQuestions(String searchQuery) {
-        String query = "SELECT * FROM " + DBConst.TABLE_QUIZ_QUESTIONS + " WHERE " + DBConst.QUIZ_QUESTIONS_COLUMN_QUESTION + " LIKE " + "'%" + searchQuery + "%'";
-        return getAllFromDB(query);
+        String query = "SELECT * FROM " + DBConst.TABLE_QUIZ_QUESTIONS + " WHERE " + DBConst.QUIZ_QUESTIONS_COLUMN_QUESTION + " LIKE ?";
+        ArrayList<QuizQuestion> questions = new ArrayList<>();
+
+        try {
+            PreparedStatement getItems = db.getConnection().prepareStatement(query);
+            getItems.setString(1, "%" + searchQuery + "%");
+            ResultSet data = getItems.executeQuery();
+
+            while(data.next()) {
+                questions.add(new QuizQuestion(data.getInt(DBConst.QUIZ_QUESTIONS_COLUMN_ID),
+                        data.getString(DBConst.QUIZ_QUESTIONS_COLUMN_CATEGORY),
+                        data.getString(DBConst.QUIZ_QUESTIONS_COLUMN_SUBCATEGORY),
+                        Difficulty.fromInt(data.getInt(DBConst.QUIZ_QUESTIONS_COLUMN_DIFFICULTY)),
+                        data.getString(DBConst.QUIZ_QUESTIONS_COLUMN_QUESTION)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return questions;
     }
 }
